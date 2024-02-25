@@ -79,4 +79,12 @@ class Post extends Model
                     ->Where('unpublished_at', '>=', now());
             });
     }
+
+    /**
+     * Scope a query to only include featured posts.
+     */
+    public function scopeFeatured(Builder $query): Builder
+    {
+        return $query->where('is_featured', true);
+    }
 }

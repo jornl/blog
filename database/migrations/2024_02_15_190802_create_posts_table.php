@@ -25,6 +25,7 @@ return new class extends Migration
             $table->timestamp('published_at')->nullable();
             $table->timestamp('unpublished_at')->nullable();
             $table->boolean('is_published')->default(false);
+            $table->boolean('is_featured')->default(false);
 
             $table->foreignIdFor(User::class)
                 ->constrained()
