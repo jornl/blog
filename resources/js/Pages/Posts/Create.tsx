@@ -1,5 +1,6 @@
 import { CategoryResponse } from "@/types/categories";
 import { PaginatedResponse } from "@/types";
+import BaseLayout from "@/Layouts/BaseLayout";
 
 export default function Create({
   categories,
@@ -7,5 +8,5 @@ export default function Create({
   categories: PaginatedResponse<CategoryResponse>;
 }) {
   console.log(categories);
-  return <div></div>;
+  return <BaseLayout></BaseLayout>;
 }

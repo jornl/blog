@@ -1,6 +1,7 @@
 import { PostResponse } from "@/types/posts";
 import { CommentResponse } from "@/types/comments";
 import { PaginatedResponse } from "@/types";
+import BaseLayout from "@/Layouts/BaseLayout";
 
 export default function Show({
   post,
@@ -10,5 +11,5 @@ export default function Show({
   comments: PaginatedResponse<CommentResponse>;
 }) {
   console.log(post);
-  return <div></div>;
+  return <BaseLayout></BaseLayout>;
 }

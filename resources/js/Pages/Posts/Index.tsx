@@ -1,5 +1,6 @@
 import { PostResponse } from "@/types/posts";
 import { PaginatedResponse } from "@/types";
+import BaseLayout from "@/Layouts/BaseLayout";
 
 export default function Index({
   posts,
@@ -7,5 +8,5 @@ export default function Index({
   posts: PaginatedResponse<PostResponse>;
 }) {
   console.log(posts);
-  return <div></div>;
+  return <BaseLayout></BaseLayout>;
 }

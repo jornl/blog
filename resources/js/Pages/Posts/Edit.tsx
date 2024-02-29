@@ -1,5 +1,6 @@
 import { PostResponse } from "@/types/posts";
 import { CategoryResponse } from "@/types/categories";
+import BaseLayout from "@/Layouts/BaseLayout";
 
 export default function Edit({
   post,
@@ -9,5 +10,5 @@ export default function Edit({
   categories: CategoryResponse;
 }) {
   console.log(post);
-  return <div></div>;
+  return <BaseLayout></BaseLayout>;
 }

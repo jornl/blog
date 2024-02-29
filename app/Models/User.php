@@ -47,6 +47,16 @@ class User extends Authenticatable
         return (bool) $this->is_admin;
     }
 
+    public function getGravatarAttribute(): string
+    {
+        $email = md5(strtolower(trim($this->email)));
+
+        return "https://www.gravatar.com/avatar/{$email}?".http_build_query([
+            's' => 40,
+            'd' => 'mp',
+        ]);
+    }
+
     /**
      * Get all the posts for the User
      */

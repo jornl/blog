@@ -1,12 +1,9 @@
-import { User } from "@/types/users";
+import { UserResponse } from "@/types/users";
 
-export type PageProps<
-  T extends Record<string, unknown> = Record<string, unknown>,
-> = T & {
-  auth: {
-    user: User | null;
+export type PageProps<T extends Record<string, unknown> = Record<string, unknown>> =
+  T & {
+    user: UserResponse | undefined;
   };
-};
 
 export interface PaginatedResponse<T> {
   data: T[];

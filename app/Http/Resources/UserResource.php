@@ -17,6 +17,7 @@ class UserResource extends JsonResource
             'name' => $this->name,
             'email' => $this->when($this->id === $request->user()?->id, $this->email),
             'email_verified_at' => $this->email_verified_at,
+            'gravatar' => $this->gravatar,
             'is_admin' => $this->is_admin,
             'posts' => $this->whenLoaded('posts', fn () => PostResource::collection($this->posts)),
             'created_at' => $this->created_at,

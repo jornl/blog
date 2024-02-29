@@ -19,14 +19,21 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
+Route::get('/welcome', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
-});
+})->name('welcome');
+Route::get('/', function () {
+    return Inertia::render('Home');
+})->name('home');
+
+Route::get('/about', function () {
+    return Inertia::render('About');
+})->name('about');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
@@ -44,8 +51,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+Route::resource('categories', CategoryController::class)->only(['index', 'show']);
 Route::resource('posts', PostController::class)->only(['index']);
 Route::get('/posts/{post}/{slug}', [PostController::class, 'show'])->name('posts.show');
-Route::resource('categories', CategoryController::class)->only(['index', 'show']);
 
 require __DIR__.'/auth.php';

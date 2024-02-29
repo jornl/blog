@@ -8,4 +8,6 @@ export interface User {
   updated_at: string;
 }
 
-export interface UserResponse extends User {}
+export interface UserResponse extends User {
+  gravatar: string;
+}
