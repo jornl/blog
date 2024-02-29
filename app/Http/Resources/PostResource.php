@@ -22,6 +22,7 @@ class PostResource extends JsonResource
             'published_at' => $this->published_at,
             'unpublished_at' => $this->unpublished_at,
             'is_published' => $this->is_published,
+            'is_featured' => $this->is_featured,
             'user' => $this->whenLoaded('user', fn () => UserResource::make($this->user)),
             'comments' => $this->whenLoaded('comments', fn () => CommentResource::collection($this->comments)),
             'category' => $this->whenLoaded('category', fn () => CategoryResource::make($this->category)),

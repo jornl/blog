@@ -10,8 +10,10 @@ export interface Post {
   body: string;
   image?: string;
   published_at?: string;
+  unpublished_at?: string;
   is_published: boolean;
-  category_id: number;
+  is_featured: boolean;
+  category_id?: number;
   created_at: string;
   updated_at: string;
   user_id?: number;
