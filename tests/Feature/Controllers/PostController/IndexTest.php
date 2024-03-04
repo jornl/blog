@@ -13,6 +13,8 @@ it('returns the correct component', function () {
 it('passes posts to the component', function () {
     $posts = Post::factory(2)->create(['is_published' => true]);
 
+    $posts->load(['user', 'category']);
+
     get(route('posts.index'))
         ->assertHasPaginatedResource('posts', PostResource::collection($posts));
 });
@@ -20,6 +22,8 @@ it('passes posts to the component', function () {
 it('passes only published posts to the component', function () {
     $publishedPost = Post::factory(2)->create(['is_published' => true]);
     $unpublishedPost = Post::factory(2)->create(['is_published' => false]);
+
+    $publishedPost->load(['user', 'category']);
 
     get(route('posts.index'))
         ->assertHasPaginatedResource('posts', PostResource::collection($publishedPost))

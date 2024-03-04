@@ -16,8 +16,23 @@ class CategoryFactory extends Factory
      */
     public function definition(): array
     {
+        $categories = [
+            'Laravel',
+            'PHP',
+            'JavaScript',
+            'React',
+            'Vue',
+            'Framework',
+            'Tailwind CSS',
+            'CSS',
+            'HTML',
+            'Docker',
+            '.Net',
+            'Python',
+        ];
+
         return [
-            'name' => fake()->words(5, true),
+            'name' => fake()->unique()->randomElement($categories),
         ];
     }
 }

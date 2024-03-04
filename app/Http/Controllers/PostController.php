@@ -22,7 +22,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::published()->paginate(10);
+        $posts = Post::with(['user', 'category'])->published()->paginate(10);
 
         return inertia('Posts/Index', [
             'posts' => PostResource::collection($posts),
@@ -67,11 +67,6 @@ class PostController extends Controller
      */
     public function show(Post $post, Request $request)
     {
-
-        if (! $post->is_published) {
-            abort(404);
-        }
-
         if (! Str::contains($post->route(), $request->path())) {
             return redirect($post->route($request->query()), status: 301);
         }

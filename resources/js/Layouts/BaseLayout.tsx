@@ -1,12 +1,13 @@
 import Navigation from "@/Layouts/Navigation";
+import { ReactNode } from "react";
 
-export default function BaseLayout() {
+export default function BaseLayout({ children }: { children?: ReactNode }) {
   return (
     <>
       <header className="bg-base-300">
         <Navigation />
       </header>
-      <main></main>
+      <main>{children}</main>
       <footer></footer>
     </>
   );

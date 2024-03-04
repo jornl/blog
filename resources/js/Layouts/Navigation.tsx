@@ -33,7 +33,7 @@ export default function Navigation() {
   ];
 
   return (
-    <nav className="navbar p-0 px-4 container">
+    <nav className="navbar p-0 px-4 md:px-0 container">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost md:hidden">

@@ -1,9 +1,10 @@
 import { UserResponse } from "@/types/users";
 
-export type PageProps<T extends Record<string, unknown> = Record<string, unknown>> =
-  T & {
-    user: UserResponse | undefined;
-  };
+export type PageProps<
+  T extends Record<string, unknown> = Record<string, unknown>,
+> = T & {
+  user: UserResponse | undefined;
+};
 
 export interface PaginatedResponse<T> {
   data: T[];
@@ -21,5 +22,12 @@ export interface PaginatedResponse<T> {
     per_page: number;
     to: number;
     total: number;
+    links: [
+      {
+        url: string;
+        label: string;
+        active: boolean;
+      },
+    ];
   };
 }

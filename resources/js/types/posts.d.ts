@@ -20,7 +20,10 @@ export interface Post {
 }
 
 export interface PostResponse extends Post {
-  user?: UserResponse;
-  comments?: PaginatedResponse<CommentResponse>;
-  category?: CategoryResponse;
+  user: UserResponse;
+  comments: PaginatedResponse<CommentResponse>;
+  category: CategoryResponse;
+  routes: {
+    show: string;
+  };
 }

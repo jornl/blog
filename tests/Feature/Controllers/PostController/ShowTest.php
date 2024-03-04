@@ -5,6 +5,7 @@ use App\Http\Resources\PostResource;
 use App\Models\Comment;
 use App\Models\Post;
 
+use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
 
 beforeEach(function () {
@@ -25,7 +26,15 @@ it('cannot view an unpublished post', function () {
     $unpublishedPost = Post::factory()->create(['is_published' => false]);
 
     get($unpublishedPost->route())
-        ->assertNotFound();
+        ->assertForbidden();
+});
+
+it('can view an unpublished post if the user is the author', function () {
+    $unpublishedPost = Post::factory()->create(['is_published' => false]);
+
+    actingAs($unpublishedPost->user)
+        ->get($unpublishedPost->route())
+        ->assertComponent('Posts/Show');
 });
 
 it('passes comments to the view', function () {
