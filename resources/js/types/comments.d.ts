@@ -6,11 +6,11 @@ export interface Comment {
   body: string;
   created_at: string;
   updated_at: string;
-  user_id?: number;
-  post_id?: number;
+  user_id: number;
+  post_id: number;
 }
 
 export interface CommentResponse extends Comment {
-  user?: UserResponse;
-  post?: PostResponse;
+  user: UserResponse;
+  post: PostResponse;
 }

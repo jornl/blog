@@ -23,10 +23,13 @@ export default function Pagination({ meta, className = "" }: PaginationType) {
               "join-item btn",
               {
                 "btn-active": link.active,
+                "btn-disabled": link.url === null,
               },
               className,
             )}
             href={link.url}
+            preserveState
+            title={link.label}
           >
             {link.label}
           </Link>

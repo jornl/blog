@@ -1,6 +1,3 @@
-import defaultTheme from "tailwindcss/defaultTheme";
-import forms from "@tailwindcss/forms";
-
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
@@ -20,5 +17,9 @@ export default {
     themes: ["light", "dark"],
   },
 
-  plugins: [forms, require("daisyui")],
+  plugins: [
+    require("@tailwindcss/forms"),
+    require("@tailwindcss/typography"),
+    require("daisyui"),
+  ],
 };

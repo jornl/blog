@@ -76,18 +76,24 @@ class Post extends Model
     public function scopePublished(Builder $query): Builder
     {
         return $query->where('is_published', true)
-            ->orWhere(function (Builder $query) {
-                $query->where('is_published', true)
-                    ->Where('published_at', '<=', now())
-                    ->Where('unpublished_at', '>=', now());
+            ->where(function (Builder $query) {
+                $query->whereNull('published_at')
+                    ->orWhere('published_at', '<=', now());
+            })
+            ->where(function (Builder $query) {
+                $query->whereNull('unpublished_at')
+                    ->orWhere('unpublished_at', '>', now());
             });
     }
 
     /**
-     * Scope a query to only include featured posts.
+     * Scope a query to order by featured posts.
      */
     public function scopeFeatured(Builder $query): Builder
     {
-        return $query->where('is_featured', true);
+        return $query->orderByDesc('is_featured')
+            ->orderByDesc('published_at')
+            ->orderByDesc('created_at')
+            ->orderByDesc('id');
     }
 }

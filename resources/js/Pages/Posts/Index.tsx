@@ -4,31 +4,37 @@ import BaseLayout from "@/Layouts/BaseLayout";
 import { Head, Link } from "@inertiajs/react";
 import Pagination from "@/Components/Pagination";
 import { formatDistanceToNow } from "date-fns";
+import Breadcrumbs from "@/Components/Breadcrumbs";
 
 export default function Index({
   posts,
 }: {
   posts: PaginatedResponse<PostResponse>;
 }) {
-  console.log(posts);
   return (
     <BaseLayout>
       <Head title="Posts" />
       <div className="container px-4 my-5">
-        <h1 className="text-2xl font-bold">Posts</h1>
+        <Breadcrumbs />
+        <h1 className="text-3xl font-bold">Latest Posts</h1>
         <div className="posts md:grid md:grid-cols-3 md:gap-4 mt-5 space-y-4">
           {posts.data.map((post, index) => (
             <div
               key={post.id}
               className={`card shadow-xl min-h-48 bg-base-200 ${index === 0 && "col-span-3"}`}
             >
+              {post.is_featured && (
+                <p className="absolute -top-3 -right-1 font-semibold bg-secondary text-secondary-content uppercase px-3 py-1 rounded-lg">
+                  Featured
+                </p>
+              )}
               {post.image && (
                 <figure>
                   <img src={post.image} alt={`${post.title} image`} />
                 </figure>
               )}
               <div className="card-body">
-                <div className="card-title flex items-start flex-col">
+                <div className="card-title flex items-start flex-col relative">
                   <div className="text-xs font-bold text-accent tracking-widest uppercase w-full flex mb-5">
                     <p className="">
                       {formatDistanceToNow(
@@ -55,7 +61,12 @@ export default function Index({
                   </Link>
                 </div>
 
-                <p className="py-3">{`${post.body.substring(0, 200)}...`}</p>
+                <p
+                  className="py-3 prose text-neutral-content"
+                  dangerouslySetInnerHTML={{
+                    __html: post.excerpt ?? post.body.substring(0, 200) + "...",
+                  }}
+                />
                 <div className="card-actions">
                   <Link
                     href={post.routes.show}
@@ -64,16 +75,7 @@ export default function Index({
                     Read more...
                   </Link>
                 </div>
-                <div className="p-4 bg-base-100 rounded-lg mt-5">
-                  <span className="text-sm text-accent flex gap-4 items-center">
-                    <img
-                      src={post.user.gravatar}
-                      alt={`${post.user.name}s gravatar`}
-                      className="rounded-full w-8 h-8"
-                    />{" "}
-                    {post.user.name}
-                  </span>
-                </div>
+                <div className="p-4 bg-base-100 rounded-lg mt-5 "></div>
               </div>
             </div>
           ))}

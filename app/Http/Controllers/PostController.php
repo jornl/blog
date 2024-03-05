@@ -22,7 +22,10 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::with(['user', 'category'])->published()->paginate(10);
+        $posts = Post::with(['category'])
+            ->published()
+            ->featured()
+            ->paginate(10);
 
         return inertia('Posts/Index', [
             'posts' => PostResource::collection($posts),
