@@ -21,7 +21,7 @@ export default function Navigation() {
     {
       name: "Posts",
       url: route("posts.index"),
-      route: "posts.index",
+      route: "posts.*",
       when: () => true,
     },
     {

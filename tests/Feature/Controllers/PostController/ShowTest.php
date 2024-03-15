@@ -43,6 +43,6 @@ it('passes comments to the view', function () {
 
     get($this->post->route())
         ->assertHasPaginatedResource('comments',
-            CommentResource::collection($comments->load('user')->reverse())
+            CommentResource::collection($comments->load(['user', 'replies'])->reverse())
         );
 });

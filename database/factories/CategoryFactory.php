@@ -2,10 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Category>
+ * @extends Factory<Category>
  */
 class CategoryFactory extends Factory
 {
@@ -29,6 +30,7 @@ class CategoryFactory extends Factory
             'Docker',
             '.Net',
             'Python',
+            'TypeScript',
         ];
 
         return [

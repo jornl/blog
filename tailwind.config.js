@@ -11,7 +11,11 @@ export default {
     container: {
       center: true,
     },
-    extend: {},
+    extend: {
+      minHeight: {
+        auto: "auto",
+      },
+    },
   },
   daisyui: {
     themes: ["light", "dark"],

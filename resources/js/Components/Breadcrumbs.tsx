@@ -19,6 +19,9 @@ export default function Breadcrumbs() {
           },
         ]
       : []),
+    ...(route().current("posts.create")
+      ? [{ label: "Create Post", url: route("posts.create") }]
+      : []),
   ];
 
   return (

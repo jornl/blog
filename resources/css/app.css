@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.textarea, .input {
+    @apply focus-within:outline-none focus-within:ring-2 focus-within:ring-secondary focus-within:ring-opacity-50 focus-within:border-0;
+}
+
+.collapse-content {
+    @apply p-4 visible col-start-1 row-start-2 min-h-auto;
+}

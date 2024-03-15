@@ -78,7 +78,7 @@ class PostController extends Controller
             'post' => PostResource::make($post->load(['user', 'category'])),
             'comments' => CommentResource::collection($post
                 ->comments()
-                ->with('user')
+                ->with(['user', 'replies', 'replies.user'])
                 ->latest()
                 ->latest('id')
                 ->paginate(10)),

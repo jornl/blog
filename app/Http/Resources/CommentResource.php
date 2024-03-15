@@ -18,6 +18,7 @@ class CommentResource extends JsonResource
             'id' => $this->id,
             'user' => $this->whenLoaded('user', fn () => UserResource::make($this->user)),
             'post' => $this->whenLoaded('post', fn () => PostResource::make($this->post)),
+            'replies' => $this->whenLoaded('replies', fn () => CommentResource::collection($this->replies)),
             'body' => $this->body,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
