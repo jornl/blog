@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('title');
             $table->text('excerpt')->nullable();
             $table->longText('body');
-            // $table->longText('html');
+            $table->longText('html');
 
             $table->string('image')->nullable();
 

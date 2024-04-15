@@ -13,7 +13,7 @@ class SplashPageController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $posts = Post::trending()->with('comments')->limit(3)->get();
+        $posts = Post::trending()->limit(3)->get();
 
         return inertia('Home', [
             'posts' => PostResource::collection($posts),

@@ -50,9 +50,10 @@ class PostController extends Controller
         $attributes = $request->validate([
             'title' => ['required', 'string', 'max:255', 'min:5'],
             'excerpt' => ['nullable', 'string'],
-            'body' => ['required', 'string'],
+            'body' => ['required', 'string', 'min:50'],
             'image' => ['nullable', 'string'],
             'published_at' => ['nullable', 'date'],
+            'unpublished_at' => ['nullable', 'date'],
             'is_published' => ['required', 'boolean'],
             'category_id' => ['required', 'exists:categories,id'],
         ]);

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Comment;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
@@ -21,6 +22,11 @@ return new class extends Migration
 
             $table->foreignIdFor(Post::class)
                 ->constrained()
+                ->cascadeOnDelete();
+
+            $table->foreignIdFor(Comment::class, 'reply_id')
+                ->nullable()
+                ->constrained('comments')
                 ->cascadeOnDelete();
 
             $table->text('body');

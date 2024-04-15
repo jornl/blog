@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.textarea {
+    @apply text-base;
+}
+
 .textarea, .input {
     @apply focus-within:outline-none focus-within:ring-2 focus-within:ring-secondary focus-within:ring-opacity-50 focus-within:border-0;
 }

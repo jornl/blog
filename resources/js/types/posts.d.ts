@@ -8,6 +8,7 @@ export interface Post {
   title: string;
   excerpt?: string;
   body: string;
+  html: string;
   image?: string;
   published_at?: string;
   unpublished_at?: string;

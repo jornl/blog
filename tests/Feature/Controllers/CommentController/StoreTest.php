@@ -3,6 +3,7 @@
 use App\Models\Post;
 use App\Models\User;
 
+use function Pest\Laravel\actingAs;
 use function Pest\Laravel\post;
 
 beforeEach(function () {
@@ -27,6 +28,25 @@ it('can store a comment', function () {
         'post_id' => $this->post->id,
         'user_id' => $user->id,
         'body' => $this->validData,
+    ]);
+});
+
+it('can store a reply', function () {
+    $user = User::factory()->create();
+    $comment = $this->post->comments()->create([
+        'user_id' => $user->id,
+        'body' => 'This is a comment.',
+    ]);
+
+    actingAs($user)
+        ->post(route('posts.comments.store', $this->post), $reply = [
+            'body' => 'This is a reply.',
+            'reply_id' => $comment->id,
+        ])
+        ->assertRedirect($this->post->route());
+
+    $this->assertDatabaseHas('comments', [
+        ...$reply,
     ]);
 });
 

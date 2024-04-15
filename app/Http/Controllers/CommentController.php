@@ -15,6 +15,7 @@ class CommentController extends Controller
     {
         $attributes = $request->validate([
             'body' => ['required', 'string', 'max:2500'],
+            'reply_id' => ['sometimes', 'required', 'nullable', 'exists:comments,id'],
         ]);
 
         $post->comments()->create([

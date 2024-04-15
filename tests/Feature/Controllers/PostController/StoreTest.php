@@ -10,7 +10,7 @@ use function Pest\Laravel\post;
 beforeEach(function () {
     $this->validData = [
         'title' => 'Post Title',
-        'body' => 'Post Content',
+        'body' => 'Post Content '.str_repeat('a', 50),
         'is_published' => true,
         'category_id' => Category::factory()->create()->id,
     ];

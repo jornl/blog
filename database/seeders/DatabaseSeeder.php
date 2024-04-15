@@ -26,10 +26,15 @@ class DatabaseSeeder extends Seeder
                 'email' => 'test@example.com',
             ]);
 
-        $posts = Post::factory(50)->recycle($categories)->create(['user_id' => $author->id]);
+        $posts = Post::factory(50)
+            ->recycle($categories)
+            ->has($comments = Comment::factory(5)->recycle($users))
+            ->create(['user_id' => $author->id]);
 
-        Comment::factory(50)->recycle($posts)->create(['user_id' => $author->id]);
+        Comment::factory(50)
+            ->recycle($posts)
+            ->has(Comment::factory()->recycle($comments)->for($author), 'replies')
+            ->create(['user_id' => $author->id]);
 
-        Comment::factory(50)->recycle([$users, $posts])->create();
     }
 }
