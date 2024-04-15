@@ -4,6 +4,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SplashPageController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -27,9 +28,7 @@ Route::get('/welcome', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 })->name('welcome');
-Route::get('/', function () {
-    return Inertia::render('Home');
-})->name('home');
+Route::get('/', SplashPageController::class)->name('home');
 
 Route::get('/about', function () {
     return Inertia::render('About');

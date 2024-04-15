@@ -20,6 +20,7 @@ class Post extends Model
         'title',
         'excerpt',
         'body',
+        'html',
         'image',
         'published_at',
         'unpublished_at',
@@ -95,5 +96,15 @@ class Post extends Model
             ->orderByDesc('published_at')
             ->orderByDesc('created_at')
             ->orderByDesc('id');
+    }
+
+    /**
+     * Scope a query to order by trending posts.
+     */
+    public function scopeTrending(Builder $query): Builder
+    {
+        return $query->withCount('comments')
+            ->orderByDesc('comments_count')
+            ->orderByDesc('created_at');
     }
 }
