@@ -26,7 +26,13 @@ const FormInput = forwardRef(function (
       ref={localRef}
       {...props}
       type={type}
-      className={cn("input input-bordered", className)}
+      className={cn(
+        {
+          "input input-bordered": type !== "file",
+          "file-input file-input-bordered": type === "file",
+        },
+        className,
+      )}
     />
   );
 });

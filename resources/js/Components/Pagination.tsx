@@ -27,7 +27,10 @@ export default function Pagination({ meta, className = "" }: PaginationType) {
               },
               className,
             )}
-            href={link.url}
+            href={route(route().current() ?? "", {
+              ...route().params,
+              page: link.url?.split("?page=")[1],
+            })}
             preserveState
             title={link.label}
           >

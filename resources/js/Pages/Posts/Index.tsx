@@ -5,6 +5,7 @@ import { Head, Link } from "@inertiajs/react";
 import Pagination from "@/Components/Pagination";
 import { formatDistanceToNow } from "date-fns";
 import Breadcrumbs from "@/Components/Breadcrumbs";
+import { cn } from "@/Utilities/utils";
 
 export default function Index({
   posts,
@@ -21,7 +22,9 @@ export default function Index({
           {posts.data.map((post, index) => (
             <div
               key={post.id}
-              className={`card shadow-xl min-h-48 bg-base-200 ${index === 0 && "col-span-3"}`}
+              className={cn("card shadow-xl min-h-48 bg-base-200", {
+                "col-span-3": index === 0,
+              })}
             >
               {post.is_featured && (
                 <p className="absolute -top-3 -right-1 font-semibold bg-secondary text-secondary-content uppercase px-3 py-1 rounded-lg">
@@ -29,8 +32,11 @@ export default function Index({
                 </p>
               )}
               {post.image && (
-                <figure>
-                  <img src={post.image} alt={`${post.title} image`} />
+                <figure className="max-h-64">
+                  <img
+                    src={`/storage/${post.image}`}
+                    alt={`${post.title} image`}
+                  />
                 </figure>
               )}
               <div className="card-body">
@@ -70,12 +76,11 @@ export default function Index({
                 <div className="card-actions">
                   <Link
                     href={post.routes.show}
-                    className="hover:underline hover:text-primary"
+                    className="btn btn-link btn-ghost"
                   >
                     Read more...
                   </Link>
                 </div>
-                <div className="p-4 bg-base-100 rounded-lg mt-5 "></div>
               </div>
             </div>
           ))}

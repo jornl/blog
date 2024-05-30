@@ -1,4 +1,4 @@
-import { RefAttributes } from "react";
+import { RefAttributes, useEffect, useRef } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { StarterKit } from "@tiptap/starter-kit";
 import { Underline } from "@tiptap/extension-underline";
@@ -9,18 +9,33 @@ import { cn } from "@/Utilities/utils";
 
 import "remixicon/fonts/remixicon.css";
 import "../../../css/placeholder.css";
+import MarkdownMenuButton from "@/Components/Buttons/MarkdownMenuButton";
 
 type EditorType = {
   placeholder?: string;
   className?: string;
+  content?: string;
+  onChange: (e: any) => void;
+  error?: boolean;
 };
 
 const MarkdownEditor = function ({
   placeholder = "",
   className = "",
+  onChange,
+  content = "",
+  error = false,
   ...props
 }: EditorType & RefAttributes<HTMLDivElement>) {
   const href = () => {};
+
+  const ref = useRef<HTMLDivElement>(null);
+
+  const editorClasses = cn(
+    "textarea textarea-bordered prose py-2 px-3 min-h-[38rem] w-full max-w-none rounded-t-none text-base-content",
+    className,
+    { "textarea-error": error },
+  );
 
   const editor = useEditor({
     extensions: [
@@ -38,13 +53,29 @@ const MarkdownEditor = function ({
     ],
     editorProps: {
       attributes: {
-        class: cn(
-          "textarea textarea-bordered prose py-2 px-3 min-h-[600px] w-full max-w-none rounded-t-none ",
-          className,
-        ),
+        class: editorClasses,
       },
     },
+    onUpdate: ({ editor }) => {
+      onChange(editor.storage.markdown.getMarkdown());
+    },
   });
+
+  useEffect(() => {
+    if (editor && content) {
+      editor.commands.setContent(content);
+    }
+
+    if (editor) {
+      editor.commands.resetAttributes(
+        "class",
+        cn(
+          "textarea textarea-bordered prose py-2 px-3 min-h-[38rem] w-full max-w-none rounded-t-none text-base-content",
+          { "textarea-error": error },
+        ),
+      );
+    }
+  }, [editor, content, error]);
 
   return (
     <>
@@ -52,160 +83,128 @@ const MarkdownEditor = function ({
         <div className="rounded-md border-0">
           <menu className="flex flex-wrap divide-x divide-y md:divide-y-0 divide-base-100">
             <li>
-              <button
-                className={cn(
-                  "rounded-tl-md px-3 py-2 bg-base-200 hover:bg-base-300 ",
-                  {
-                    "bg-base-300": editor.isActive("heading", { level: 2 }),
-                  },
-                )}
-                type="button"
+              <MarkdownMenuButton
+                active={editor.isActive("heading", { level: 2 })}
+                className="rounded-tl-md"
                 title="Heading 1"
                 onClick={() =>
                   editor.chain().focus().toggleHeading({ level: 2 }).run()
                 }
               >
                 <i className="ri-h-1" />
-              </button>
+              </MarkdownMenuButton>
             </li>
             <li>
-              <button
-                className={cn("px-3 py-2 bg-base-200 hover:bg-base-300 ", {
-                  "bg-base-300": editor.isActive("heading", { level: 3 }),
-                })}
-                type="button"
+              <MarkdownMenuButton
+                active={editor.isActive("heading", { level: 3 })}
                 title="Heading 2"
                 onClick={() =>
                   editor.chain().focus().toggleHeading({ level: 3 }).run()
                 }
               >
                 <i className="ri-h-2" />
-              </button>
+              </MarkdownMenuButton>
             </li>
             <li>
-              <button
-                className={cn("px-3 py-2 bg-base-200 hover:bg-base-300 ", {
-                  "bg-base-300": editor.isActive("heading", { level: 4 }),
-                })}
-                type="button"
+              <MarkdownMenuButton
+                active={editor.isActive("heading", { level: 4 })}
                 title="Heading 3"
                 onClick={() =>
                   editor.chain().focus().toggleHeading({ level: 4 }).run()
                 }
               >
                 <i className="ri-h-3" />
-              </button>
+              </MarkdownMenuButton>
             </li>
             <li>
-              <button
-                className={cn("px-3 py-2 bg-base-200 hover:bg-base-300 ", {
-                  "bg-base-300": editor.isActive("bold"),
-                })}
-                type="button"
+              <MarkdownMenuButton
+                active={editor.isActive("bold")}
                 title="Bold"
                 onClick={() => editor.chain().focus().toggleBold().run()}
               >
                 <i className="ri-bold" />
-              </button>
+              </MarkdownMenuButton>
             </li>
             <li>
-              <button
-                className={cn("px-3 py-2 bg-base-200 hover:bg-base-300 ", {
-                  "bg-base-300": editor.isActive("italic"),
-                })}
-                type="button"
+              <MarkdownMenuButton
+                active={editor.isActive("italic")}
                 title="Italic"
                 onClick={() => editor.chain().focus().toggleItalic().run()}
               >
                 <i className="ri-italic" />
-              </button>
+              </MarkdownMenuButton>
             </li>
             <li>
-              <button
-                className={cn("px-3 py-2 bg-base-200 hover:bg-base-300 ", {
-                  "bg-base-300": editor.isActive("underline"),
-                })}
-                type="button"
-                title="Strikethrough"
+              <MarkdownMenuButton
+                active={editor.isActive("underline")}
+                title="Underline"
                 onClick={() => editor.chain().focus().toggleUnderline().run()}
               >
                 <i className="ri-underline" />
-              </button>
+              </MarkdownMenuButton>
             </li>
             <li>
-              <button
-                className={cn("px-3 py-2 bg-base-200 hover:bg-base-300 ", {
-                  "bg-base-300": editor.isActive("strike"),
-                })}
-                type="button"
+              <MarkdownMenuButton
+                active={editor.isActive("strike")}
                 title="Strikethrough"
                 onClick={() => editor.chain().focus().toggleStrike().run()}
               >
                 <i className="ri-strikethrough" />
-              </button>
+              </MarkdownMenuButton>
             </li>
             <li>
-              <button
-                className={cn("px-3 py-2 bg-base-200 hover:bg-base-300 ", {
-                  "bg-base-300": editor.isActive("orderedList"),
-                })}
-                type="button"
+              <MarkdownMenuButton
+                active={editor.isActive("orderedList")}
                 title="Ordered List"
                 onClick={() => editor.chain().focus().toggleOrderedList().run()}
               >
                 <i className="ri-list-ordered" />
-              </button>
+              </MarkdownMenuButton>
             </li>
             <li>
-              <button
-                className={cn("px-3 py-2 bg-base-200 hover:bg-base-300 ", {
-                  "bg-base-300": editor.isActive("bulletList"),
-                })}
-                type="button"
+              <MarkdownMenuButton
+                active={editor.isActive("bulletList")}
                 title="Unordered List"
                 onClick={() => editor.chain().focus().toggleBulletList().run()}
               >
                 <i className="ri-list-unordered" />
-              </button>
+              </MarkdownMenuButton>
             </li>
             <li>
-              <button
-                className={cn("px-3 py-2 bg-base-200 hover:bg-base-300 ", {
-                  "bg-base-300": editor.isActive("link"),
-                })}
-                type="button"
+              <MarkdownMenuButton
+                active={editor.isActive("link")}
                 title="Add link"
                 onClick={() => {}}
               >
                 <i className="ri-link" />
-              </button>
+              </MarkdownMenuButton>
             </li>
             <li>
-              <button
-                className={cn("px-3 py-2 bg-base-200 hover:bg-base-300 ", {
-                  "bg-base-300": editor.isActive("code"),
-                })}
-                type="button"
-                title="Unordered List"
+              <MarkdownMenuButton
+                active={editor.isActive("code")}
+                title="Code"
                 onClick={() => editor.chain().focus().toggleCode().run()}
               >
                 <i className="ri-code-line" />
-              </button>
+              </MarkdownMenuButton>
             </li>
             <li>
-              <button
-                className={cn("px-3 py-2 bg-base-200 hover:bg-base-300 ", {
-                  "bg-base-300": editor.isActive("codeBlock"),
-                })}
-                type="button"
-                title="Unordered List"
+              <MarkdownMenuButton
+                active={editor.isActive("codeBlock")}
+                title="Code Block"
+                className="rounded-tr-md"
                 onClick={() => editor.chain().focus().toggleCodeBlock().run()}
               >
                 <i className="ri-code-block" />
-              </button>
+              </MarkdownMenuButton>
             </li>
           </menu>
-          <EditorContent editor={editor} {...props} />
+          <EditorContent
+            editor={editor}
+            content={content}
+            {...props}
+            ref={ref}
+          />
         </div>
       )}
     </>

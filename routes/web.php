@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SplashPageController;
@@ -34,11 +35,8 @@ Route::get('/about', function () {
     return Inertia::render('About');
 })->name('about');
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', DashboardController::class)->name('dashboard');
     Route::resource('posts', PostController::class)->except(['index', 'show']);
     Route::resource('categories', CategoryController::class)->except(['index', 'show']);
 

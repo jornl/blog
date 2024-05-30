@@ -10,6 +10,7 @@ export interface Post {
   body: string;
   html: string;
   image?: string;
+  post_image?: File | null;
   published_at?: string;
   unpublished_at?: string;
   is_published: boolean;
@@ -22,7 +23,8 @@ export interface Post {
 
 export interface PostResponse extends Post {
   user: UserResponse;
-  comments: PaginatedResponse<CommentResponse>;
+  comments: CommentResponse[];
+  comments_count: number;
   category: CategoryResponse;
   routes: {
     show: string;

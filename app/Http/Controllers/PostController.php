@@ -8,6 +8,7 @@ use App\Http\Resources\PostResource;
 use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class PostController extends Controller
@@ -51,12 +52,20 @@ class PostController extends Controller
             'title' => ['required', 'string', 'max:255', 'min:5'],
             'excerpt' => ['nullable', 'string'],
             'body' => ['required', 'string', 'min:50'],
-            'image' => ['nullable', 'string'],
+            'post_image' => ['nullable', 'image'],
             'published_at' => ['nullable', 'date'],
             'unpublished_at' => ['nullable', 'date'],
-            'is_published' => ['required', 'boolean'],
+            'is_published' => ['sometimes', 'required', 'boolean'],
             'category_id' => ['required', 'exists:categories,id'],
         ]);
+
+        $attributes['is_published'] = $attributes['is_published'] ?? false;
+
+        unset($attributes['post_image']);
+
+        if ($request->file('post_image')) {
+            $attributes['image'] = Storage::disk('images')->put('images', $request->file('post_image'));
+        }
 
         $post = Post::create([
             ...$attributes,
@@ -71,7 +80,7 @@ class PostController extends Controller
      */
     public function show(Post $post, Request $request)
     {
-        if (! Str::contains($post->route(), $request->path())) {
+        if (! Str::endsWith($post->route(), $request->path())) {
             return redirect($post->route($request->query()), status: 301);
         }
 

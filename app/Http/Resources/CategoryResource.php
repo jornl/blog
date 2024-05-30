@@ -21,6 +21,7 @@ class CategoryResource extends JsonResource
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'posts' => $this->whenLoaded('posts', fn () => PostResource::collection($this->posts)),
+            'posts_count' => $this->whenCounted('posts'),
         ];
     }
 }
