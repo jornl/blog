@@ -12,24 +12,24 @@ beforeEach(function () {
 });
 
 it('requires authentication and admin', function () {
-    get(route('posts.edit', $this->post))
+    get(route('admin.posts.edit', $this->post))
         ->assertRedirect(route('login'));
 
     actingAs(User::factory()->create())
-        ->get(route('posts.edit', $this->post))
+        ->get(route('admin.posts.edit', $this->post))
         ->assertForbidden();
 });
 
 it('returns the correct component', function () {
     actingAs(User::factory()->create(['is_admin' => true]));
 
-    get(route('posts.edit', $this->post))
-        ->assertComponent('Posts/Edit');
+    get(route('admin.posts.edit', $this->post))
+        ->assertComponent('Admin/Posts/Edit');
 });
 
 it('passes the post to the view', function () {
     actingAs(User::factory()->create(['is_admin' => true]));
 
-    get(route('posts.edit', $this->post))
+    get(route('admin.posts.edit', $this->post))
         ->assertHasResource('post', PostResource::make($this->post->load('category')));
 });

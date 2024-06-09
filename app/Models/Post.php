@@ -67,9 +67,9 @@ class Post extends Model
     /**
      * Return the route to the post.
      */
-    public function route(array $attributes = []): string
+    public function route(string $route = 'posts.show', array $attributes = []): string
     {
-        return route('posts.show', [$this, Str::slug($this->title), ...$attributes]);
+        return route($route, [$this, Str::slug($this->title), ...$attributes]);
     }
 
     /**

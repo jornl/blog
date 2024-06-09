@@ -18,7 +18,7 @@ export default function Index({
       <div className="container px-4 my-5">
         <Breadcrumbs />
         <h1 className="text-3xl font-bold">Latest Posts</h1>
-        <div className="posts md:grid md:grid-cols-3 md:gap-4 mt-5 space-y-4">
+        <div className="posts md:grid md:grid-cols-3 md:gap-4 my-5 space-y-4">
           {posts.data.map((post, index) => (
             <div
               key={post.id}
@@ -26,11 +26,6 @@ export default function Index({
                 "col-span-3": index === 0,
               })}
             >
-              {post.is_featured && (
-                <p className="absolute -top-3 -right-1 font-semibold bg-secondary text-secondary-content uppercase px-3 py-1 rounded-lg">
-                  Featured
-                </p>
-              )}
               {post.image && (
                 <figure className="max-h-64">
                   <img

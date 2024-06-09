@@ -16,7 +16,7 @@ it('passes posts to the component', function () {
     $posts->load(['category']);
 
     get(route('posts.index'))
-        ->assertHasPaginatedResource('posts', PostResource::collection($posts->reverse()));
+        ->assertHasPaginatedResource('posts', PostResource::collection($posts));
 });
 
 it('passes only published posts to the component', function () {
@@ -26,7 +26,7 @@ it('passes only published posts to the component', function () {
     $publishedPost->load(['category']);
 
     get(route('posts.index'))
-        ->assertHasPaginatedResource('posts', PostResource::collection($publishedPost->reverse()))
+        ->assertHasPaginatedResource('posts', PostResource::collection($publishedPost))
         ->assertMissingResource('posts', PostResource::collection($unpublishedPost));
 });
 

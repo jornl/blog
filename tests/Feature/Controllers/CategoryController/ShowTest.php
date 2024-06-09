@@ -3,11 +3,13 @@
 use App\Http\Resources\CategoryResource;
 use App\Http\Resources\PostResource;
 use App\Models\Category;
+use App\Models\Post;
 
 use function Pest\Laravel\get;
 
 beforeEach(function () {
-    $this->category = Category::factory()->hasPosts(2)->create();
+    $this->category = Category::factory()->create();
+    Post::factory()->for($this->category)->create(['is_published' => true]);
 });
 
 it('renders the correct view', function () {

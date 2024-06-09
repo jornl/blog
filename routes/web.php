@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
+use App\Http\Controllers\Admin\PostController as AdminPostController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DashboardController;
@@ -37,7 +39,6 @@ Route::get('/about', function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
-    Route::resource('posts', PostController::class)->except(['index', 'show']);
     Route::resource('categories', CategoryController::class)->except(['index', 'show']);
 
     Route::resource('posts.comments', CommentController::class)
@@ -47,9 +48,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::prefix('admin')->name('admin.')->group(function () {
+        Route::resource('posts', AdminPostController::class);
+        Route::get('/category/{category}', [AdminCategoryController::class, 'show'])->name('categories.show');
+    });
+
 });
 Route::resource('categories', CategoryController::class)->only(['index', 'show']);
-Route::resource('posts', PostController::class)->only(['index']);
+Route::get('posts', [PostController::class, 'index'])->name('posts.index');
 Route::get('/posts/{post}/{slug}', [PostController::class, 'show'])->name('posts.show');
 
 require __DIR__.'/auth.php';

@@ -1,14 +1,14 @@
 import { CategoryResponse } from "@/types/categories";
-import BaseLayout from "@/Layouts/BaseLayout";
 import { Head, useForm } from "@inertiajs/react";
 import Breadcrumbs from "@/Components/Breadcrumbs";
 import FormInput from "@/Components/Form/FormInput";
 import MarkdownEditor from "@/Components/Form/MarkdownEditor";
-import PostOptions from "@/Pages/Posts/Partials/PostOptions";
+import PostOptions from "@/Pages/Admin/Posts/Partials/PostOptions";
 import { FormEvent, Fragment, useState } from "react";
 import { cn } from "@/Utilities/utils";
 import { Listbox, Transition } from "@headlessui/react";
 import { Post } from "@/types/posts";
+import AdminLayout from "@/Layouts/AdminLayout";
 
 export default function Create({
   categories,
@@ -26,9 +26,9 @@ export default function Create({
   };
 
   return (
-    <BaseLayout>
+    <AdminLayout>
       <Head title="Create Post" />
-      <div className="container my-5 px-4">
+      <div className="my-5 px-4">
         <Breadcrumbs />
         <h1 className="text-2xl">Create post</h1>
         <div className="">
@@ -177,6 +177,6 @@ export default function Create({
           </form>
         </div>
       </div>
-    </BaseLayout>
+    </AdminLayout>
   );
 }

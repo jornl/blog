@@ -28,5 +28,6 @@ export interface PostResponse extends Post {
   category: CategoryResponse;
   routes: {
     show: string;
+    edit: string;
   };
 }

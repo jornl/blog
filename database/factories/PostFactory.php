@@ -21,7 +21,8 @@ class PostFactory extends Factory
         return [
             'title' => str(fake()->sentence)->beforeLast('.')->title(),
             'body' => Collection::times(3, fn () => fake()->realText(1000))->join(PHP_EOL.PHP_EOL),
-            'is_published' => fake()->boolean(80),
+            'is_published' => $published = fake()->boolean(80),
+            'published_at' => $published ? now() : null,
             'is_featured' => fake()->boolean(10),
             'user_id' => User::factory(),
             'category_id' => Category::factory(),

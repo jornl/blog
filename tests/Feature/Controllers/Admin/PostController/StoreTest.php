@@ -1,45 +1,49 @@
 <?php
 
+use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
 
 use function Pest\Laravel\actingAs;
-use function Pest\Laravel\patch;
+use function Pest\Laravel\post;
 
 beforeEach(function () {
-    $this->post = Post::factory()->create(['is_published' => true]);
-
     $this->validData = [
         'title' => 'Post Title',
-        'body' => 'Post Content',
+        'body' => 'Post Content '.str_repeat('a', 50),
+        'is_published' => true,
+        'category_id' => Category::factory()->create()->id,
     ];
+
 });
 
 it('requires authentication and admin', function () {
-    patch(route('posts.update', $this->post), $this->validData)
+    post(route('admin.posts.store'), [])
         ->assertRedirect(route('login'));
 
     actingAs(User::factory()->create())
-        ->patch(route('posts.update', $this->post), $this->validData)
+        ->post(route('admin.posts.store'), [])
         ->assertForbidden();
 });
 
-it('can update a post', function () {
+it('can store a post', function () {
     actingAs(User::factory()->create(['is_admin' => true]))
-        ->patch(route('posts.update', $this->post), $this->validData);
+        ->post(route('admin.posts.store'), $this->validData);
 
-    $this->assertDatabaseHas('posts', $this->validData);
+    $this->assertDatabaseHas(Post::class, [...$this->validData]);
 });
 
 it('redirects to the post show page', function () {
     actingAs(User::factory()->create(['is_admin' => true]))
-        ->patch(route('posts.update', $this->post), $this->validData)
-        ->assertRedirect($this->post->refresh()->route());
+        ->post(route('admin.posts.store'), $this->validData)
+        ->assertRedirect(Post::latest('id')->first()->route());
+
+    $this->assertDatabaseHas('posts', $this->validData);
 });
 
 it('validates the data', function (array $badValues, array|string $errors) {
     actingAs(User::factory()->create(['is_admin' => true]))
-        ->patch(route('posts.update', $this->post), [...$this->validData, ...$badValues])
+        ->post(route('admin.posts.store'), [...$this->validData, ...$badValues])
         ->assertInvalid($errors);
 })->with([
     [['title' => null], 'title'],
@@ -52,4 +56,9 @@ it('validates the data', function (array $badValues, array|string $errors) {
     [['body' => 1], 'body'],
     [['body' => 1.5], 'body'],
     [['body' => false], 'body'],
+    [['is_published' => null], 'is_published'],
+    [['is_published' => 'not-boolean'], 'is_published'],
+    [['category_id' => null], 'category_id'],
+    [['category_id' => 'not-integer'], 'category_id'],
+    [['category_id' => 999], 'category_id'],
 ]);
