@@ -31,7 +31,7 @@ class PostResource extends JsonResource
             'updated_at' => $this->updated_at,
             'routes' => [
                 'show' => $this->route(),
-                'edit' => $this->route('admin.posts.edit'),
+                'edit' => $this->when($request->user()?->isAdmin(), $this->route('admin.posts.edit', false)),
             ],
         ];
     }

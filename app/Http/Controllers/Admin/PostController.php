@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CategoryResource;
 use App\Http\Resources\PostResource;
+use App\Http\Sorters\PostSorter;
 use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
@@ -23,12 +24,11 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(PostSorter $filters, Request $request)
     {
         $posts = Post::with(['category'])
             ->withCount(['comments'])
-            ->latest()
-            ->latest('id')
+            ->when($request->has('sort'), fn ($query) => $query->filter($filters), fn ($query) => $query->latest())
             ->paginate(10);
 
         return inertia('Admin/Posts/Index', [
