@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Http\Sorters\QuerySorter;
 use App\Models\Concerns\ConvertsMarkdownToHtml;
+use App\Models\Concerns\Likeable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,7 +14,9 @@ use Illuminate\Support\Str;
 
 class Post extends Model
 {
-    use ConvertsMarkdownToHtml, HasFactory;
+    use ConvertsMarkdownToHtml,
+        HasFactory,
+        Likeable;
 
     /**
      * The attributes that are mass assignable.
@@ -67,9 +71,9 @@ class Post extends Model
     /**
      * Return the route to the post.
      */
-    public function route(string $route = 'posts.show', array $attributes = []): string
+    public function route(string $route = 'posts.show', $includeSlug = true, array $attributes = []): string
     {
-        return route($route, [$this, Str::slug($this->title), ...$attributes]);
+        return route($route, [$this, $includeSlug ? Str::slug($this->title) : '', ...$attributes]);
     }
 
     /**
@@ -86,6 +90,11 @@ class Post extends Model
                 $query->whereNull('unpublished_at')
                     ->orWhere('unpublished_at', '>', now());
             });
+    }
+
+    public function scopeFilter(Builder $query, QuerySorter $sorter): Builder
+    {
+        return $sorter->apply($query);
     }
 
     /**
