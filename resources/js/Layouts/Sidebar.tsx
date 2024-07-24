@@ -1,6 +1,6 @@
-import { Link } from "@inertiajs/react";
 import { Accordion } from "@/Components/Accordion";
 import "remixicon/fonts/remixicon.css";
+import SidebarLink from "@/Components/Links/SidebarLink";
 
 export default function Sidebar() {
   return (
@@ -11,13 +11,15 @@ export default function Sidebar() {
       <div className="mb-2 p-4">
         <h2 className="text-2xl font-bold">JL Admin</h2>
       </div>
-      <Link
-        href={route("home")}
-        className="px-4 py-3 hover:bg-base-100 hover:rounded-md transition-all ease-in-out duration-200"
-      >
+      <SidebarLink href={route("home")}>
         <i className="ri-home-2-line mr-3"></i>
         Homepage
-      </Link>
+      </SidebarLink>
+
+      <SidebarLink href={route("dashboard")}>
+        <i className="ri-dashboard-line mr-3"></i>
+        Dashboard
+      </SidebarLink>
 
       <Accordion>
         <Accordion.Item>
@@ -28,22 +30,16 @@ export default function Sidebar() {
           <Accordion.Content>
             <ul className="flex flex-col w-full gap-1">
               <li>
-                <Link
-                  href={route("admin.posts.index")}
-                  className="block px-5 py-3 hover:bg-base-100 hover:rounded-md transition-all ease-in-out duration-200"
-                >
+                <SidebarLink href={route("admin.posts.index")}>
                   <i className="ri-layout-horizontal-line mr-3"></i>
                   All Posts
-                </Link>
+                </SidebarLink>
               </li>
               <li>
-                <Link
-                  href={route("admin.posts.create")}
-                  className="block px-5 py-3 hover:bg-base-100 hover:rounded-md transition-all ease-in-out duration-200"
-                >
+                <SidebarLink href={route("admin.posts.create")}>
                   <i className="ri-quill-pen-fill mr-3"></i>
                   Create post
-                </Link>
+                </SidebarLink>
               </li>
             </ul>
           </Accordion.Content>
@@ -56,22 +52,16 @@ export default function Sidebar() {
           <Accordion.Content>
             <ul className="flex flex-col w-full gap-1">
               <li>
-                <Link
-                  href={route("categories.index")}
-                  className="block px-5 py-3 hover:bg-base-100 hover:rounded-md transition-all ease-in-out duration-200"
-                >
+                <SidebarLink href={route("categories.index")}>
                   <i className="ri-layout-horizontal-line mr-3"></i>
                   Categories
-                </Link>
+                </SidebarLink>
               </li>
               <li>
-                <Link
-                  href={route("categories.create")}
-                  className="block px-5 py-3 hover:bg-base-100 hover:rounded-md transition-all ease-in-out duration-200"
-                >
+                <SidebarLink href={route("categories.create")}>
                   <i className="ri-quill-pen-fill mr-3"></i>
                   Create category
-                </Link>
+                </SidebarLink>
               </li>
             </ul>
           </Accordion.Content>
@@ -84,13 +74,10 @@ export default function Sidebar() {
           <Accordion.Content>
             <ul>
               <li>
-                <Link
-                  href={route("categories.index")}
-                  className="block px-5 py-3 hover:bg-base-100 hover:rounded-md transition-all ease-in-out duration-200"
-                >
+                <SidebarLink href={route("categories.index")}>
                   <i className="ri-layout-horizontal-line mr-3"></i>
                   Users
-                </Link>
+                </SidebarLink>
               </li>
             </ul>
           </Accordion.Content>

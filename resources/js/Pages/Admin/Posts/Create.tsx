@@ -22,7 +22,7 @@ export default function Create({
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-    post(route("posts.store"));
+    post(route("admin.posts.store"));
   };
 
   return (
