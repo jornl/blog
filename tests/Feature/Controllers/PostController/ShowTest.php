@@ -19,7 +19,7 @@ it('returns the correct component', function () {
 
 it('passes a post to the view', function () {
     get($this->post->route())
-        ->assertHasResource('post', PostResource::make($this->post->load(['user', 'category'])));
+        ->assertHasResource('post', PostResource::make($this->post->load(['user', 'category'])->loadCount(['likes', 'comments'])));
 });
 
 it('cannot view an unpublished post', function () {
@@ -43,6 +43,6 @@ it('passes comments to the view', function () {
 
     get($this->post->route())
         ->assertHasPaginatedResource('comments',
-            CommentResource::collection($comments->load(['user', 'replies'])->reverse())
+            CommentResource::collection($comments->load(['user'])->reverse())
         );
 });

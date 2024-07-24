@@ -11,5 +11,5 @@ it('generates a route to the post', function () {
 it('generates a route to the post with additional attributes', function () {
     $post = Post::factory()->create();
 
-    expect($post->route('posts.show', ['foo' => 'bar']))->toBe(route('posts.show', [$post, Str::slug($post->title), 'foo' => 'bar']));
+    expect($post->route(attributes: ['foo' => 'bar']))->toBe(route('posts.show', [$post, Str::slug($post->title), 'foo' => 'bar']));
 });

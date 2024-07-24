@@ -13,6 +13,8 @@ class CommentController extends Controller
      */
     public function store(Post $post, Request $request)
     {
+        $this->authorize('create', Comment::class);
+
         $attributes = $request->validate([
             'body' => ['required', 'string', 'max:2500'],
             'reply_id' => ['sometimes', 'required', 'nullable', 'exists:comments,id'],
@@ -31,6 +33,8 @@ class CommentController extends Controller
      */
     public function update(Request $request, Comment $comment)
     {
+        $this->authorize('update', $comment);
+
         $attributes = $request->validate([
             'body' => ['required', 'string', 'max:2500'],
         ]);

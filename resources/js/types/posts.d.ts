@@ -25,9 +25,13 @@ export interface PostResponse extends Post {
   user: UserResponse;
   comments: CommentResponse[];
   comments_count: number;
+  likes_count: number;
   category: CategoryResponse;
   routes: {
     show: string;
     edit: string;
+  };
+  can: {
+    like: boolean;
   };
 }

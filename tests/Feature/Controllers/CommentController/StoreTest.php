@@ -32,7 +32,7 @@ it('can store a comment', function () {
 });
 
 it('can store a reply', function () {
-    $user = User::factory()->create();
+    $user = User::factory()->create(['email_verified_at' => now()]);
     $comment = $this->post->comments()->create([
         'user_id' => $user->id,
         'body' => 'This is a comment.',
@@ -50,8 +50,14 @@ it('can store a reply', function () {
     ]);
 });
 
+it('must be verified to store a comment', function () {
+    $this->actingAs(User::factory()->create(['email_verified_at' => null]))
+        ->post(route('posts.comments.store', $this->post), $this->validData)
+        ->assertForbidden();
+});
+
 it('validates body', function ($value) {
-    $this->actingAs($user = User::factory()->create())
+    $this->actingAs(User::factory()->create())
         ->post(route('posts.comments.store', $this->post), ['body' => $value])
         ->assertInvalid('body');
 })->with([

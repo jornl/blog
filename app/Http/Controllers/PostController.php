@@ -40,10 +40,9 @@ class PostController extends Controller
         }
 
         return inertia('Posts/Show', [
-            'post' => PostResource::make($post->load(['user', 'category'])),
+            'post' => PostResource::make($post->load(['user', 'category'])->loadCount(['likes', 'comments'])),
             'comments' => CommentResource::collection($post
                 ->comments()
-                ->with(['user', 'replies', 'replies.user'])
                 ->latest()
                 ->latest('id')
                 ->paginate(10)),
