@@ -6,7 +6,7 @@ import FormInput from "@/Components/Form/FormInput";
 import { cn } from "@/Utilities/utils";
 import { Listbox, Transition } from "@headlessui/react";
 import { CategoryResponse } from "@/types/categories";
-import MarkdownEditor from "@/Components/Form/MarkdownEditor";
+import Editor from "@/Components/MarkdownEditor/MarkdownEditor";
 import { Post } from "@/types/posts";
 
 type PostFormProps = {
@@ -183,7 +183,7 @@ const PostForm = ({
             </div>
 
             <div className="my-5">
-              <MarkdownEditor
+              <Editor
                 placeholder="Post Body"
                 onChange={(e) => setData("body", e)}
                 error={!!errors.body}

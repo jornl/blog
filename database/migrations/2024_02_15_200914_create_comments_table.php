@@ -30,6 +30,7 @@ return new class extends Migration
                 ->cascadeOnDelete();
 
             $table->text('body');
+            $table->text('html');
             $table->timestamps();
         });
     }

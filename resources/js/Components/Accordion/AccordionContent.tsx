@@ -24,7 +24,7 @@ export const AccordionContent = forwardRef<
         { "bg-base-200 rounded-b-md": itemContext.open },
         className,
       )}
-      aria-hidden={itemContext.open ?? undefined}
+      aria-expanded={itemContext.open}
       {...props}
       ref={ref}
     >

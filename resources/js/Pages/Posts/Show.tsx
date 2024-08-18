@@ -9,10 +9,14 @@ import { formatDistanceToNow } from "date-fns";
 import Header from "@/Components/Topography/Header";
 import "remixicon/fonts/remixicon.css";
 import Button from "@/Components/Buttons/Button";
-import { FormEvent, useRef } from "react";
-import MarkdownEditor, {
+import { FormEvent, useRef, useEffect, CSSProperties } from "react";
+import Editor, {
   EditorMethods,
-} from "@/Components/Form/MarkdownEditor";
+} from "@/Components/MarkdownEditor/MarkdownEditor";
+
+import "highlight.js/styles/atom-one-dark.min.css";
+import "../../../css/editor.css";
+import hljs from "highlight.js";
 
 export default function Show({
   post,
@@ -57,6 +61,10 @@ export default function Show({
     });
   };
 
+  useEffect(() => {
+    hljs.highlightAll();
+  }, []);
+
   return (
     <BaseLayout>
       <Head title={post.title} />
@@ -84,11 +92,11 @@ export default function Show({
             )}
 
             <div
-              className="prose my-5 text-base-content"
+              className="prose w-[80ch] my-5 text-base-content"
               dangerouslySetInnerHTML={{ __html: post.html }}
             />
           </div>
-          <div className="card bg-base-200 p-5 order-1 md:order-2 my-5 md:my-0 self-start">
+          <div className="card bg-base-200 p-5 order-1 md:order-2 my-5 md:my-0 self-start sticky top-10">
             <ul className="py-2">
               <li>
                 {post.is_featured && (
@@ -138,13 +146,14 @@ export default function Show({
               </li>
             </ul>
           </div>
-          <div className="comments my-5 order-3 md:col-span-3">
+
+          <div className="comments my-5 order-3 md:col-span-2">
             <h2 className="font-bold text-xl" ref={commentRef}>
               Comments ({comments.data.length})
             </h2>
             {user && (
               <div className="my-4">
-                <MarkdownEditor
+                <Editor
                   onChange={(e) => form.setData("body", e)}
                   className="min-h-[10rem] w-full"
                   placeholder="Write your comment here"
@@ -166,7 +175,10 @@ export default function Show({
                     />
                     {comment.user.name}
                   </div>
-                  <p>{comment.body}</p>
+                  <div
+                    className="prose max-w-full"
+                    dangerouslySetInnerHTML={{ __html: comment.html }}
+                  />
 
                   <p className="text-xs text-accent">
                     {formatDistanceToNow(comment.created_at, {

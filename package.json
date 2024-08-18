@@ -26,6 +26,7 @@
     },
     "dependencies": {
         "@tiptap/extension-code": "^2.2.4",
+        "@tiptap/extension-code-block-lowlight": "^2.5.6",
         "@tiptap/extension-link": "^2.2.4",
         "@tiptap/extension-placeholder": "^2.2.4",
         "@tiptap/extension-underline": "^2.2.4",
@@ -34,6 +35,8 @@
         "@tiptap/starter-kit": "^2.2.4",
         "clsx": "^2.1.0",
         "date-fns": "^3.3.1",
+        "highlight.js": "^11.10.0",
+        "lowlight": "^3.1.0",
         "prettier": "^3.2.5",
         "remixicon": "^4.2.0",
         "tailwind-merge": "^2.2.1",

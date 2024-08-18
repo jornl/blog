@@ -1,0 +1,9 @@
+@import url(https://fonts.bunny.net/css?family=fira-code:400);
+
+:root .prose {
+    --tw-prose-pre-bg: #282c34;
+}
+
+code, pre {
+    font-family: 'Fira Code', monospace;
+}

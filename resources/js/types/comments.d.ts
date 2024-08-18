@@ -4,6 +4,7 @@ import { PostResponse } from "@/types/posts";
 export interface Comment {
   id: number;
   body: string;
+  html: string;
   created_at: string;
   updated_at: string;
   user_id: number;

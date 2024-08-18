@@ -2,7 +2,7 @@ import { CategoryResponse } from "@/types/categories";
 import { Head, useForm } from "@inertiajs/react";
 import Breadcrumbs from "@/Components/Breadcrumbs";
 import FormInput from "@/Components/Form/FormInput";
-import MarkdownEditor from "@/Components/Form/MarkdownEditor";
+import Editor from "@/Components/MarkdownEditor/MarkdownEditor";
 import PostOptions from "@/Pages/Admin/Posts/Partials/PostOptions";
 import { FormEvent, Fragment, useState } from "react";
 import { cn } from "@/Utilities/utils";
@@ -150,7 +150,7 @@ export default function Create({
               </div>
 
               <div className="my-5">
-                <MarkdownEditor
+                <Editor
                   placeholder="Post Body"
                   onChange={(e) => setData("body", e)}
                   error={!!errors.body}

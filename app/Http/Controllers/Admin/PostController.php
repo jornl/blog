@@ -27,7 +27,7 @@ class PostController extends Controller
     public function index(PostSorter $filters, Request $request)
     {
         $posts = Post::with(['category'])
-            ->withCount(['comments'])
+            ->withCount(['comments', 'likes'])
             ->when($request->has('sort'), fn ($query) => $query->filter($filters), fn ($query) => $query->latest())
             ->paginate(10);
 

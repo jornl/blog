@@ -17,10 +17,10 @@ type DashboardPageType = {
 };
 
 export default function Dashboard({
-  categories,
-  posts,
-  comments,
-}: DashboardPageType) {
+                                    categories,
+                                    posts,
+                                    comments,
+                                  }: DashboardPageType) {
   return (
     <AdminLayout>
       <Head title="Dashboard" />
@@ -58,7 +58,7 @@ export default function Dashboard({
                     {post.comments_count}
                   </p>
                   <p>
-                    <i className="ri-thumb-up-fill mr-2"></i>0
+                    <i className="ri-thumb-up-fill mr-2"></i>{post.likes_count}
                   </p>
                 </div>
               </div>

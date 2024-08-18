@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\ConvertsMarkdownToHtml;
 use App\Models\Concerns\Likeable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Comment extends Model
 {
-    use HasFactory, Likeable;
+    use ConvertsMarkdownToHtml, HasFactory, Likeable;
 
     /**
      * The attributes that are mass assignable.
@@ -20,6 +21,7 @@ class Comment extends Model
         'post_id',
         'reply_id',
         'body',
+        'html',
     ];
 
     /**

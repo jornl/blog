@@ -113,8 +113,9 @@ class Post extends Model
      */
     public function scopeTrending(Builder $query): Builder
     {
-        return $query->withCount('comments')
+        return $query->withCount('comments', 'likes')
             ->orderByDesc('comments_count')
+            ->orderByDesc('likes_count')
             ->orderByDesc('created_at');
     }
 }
