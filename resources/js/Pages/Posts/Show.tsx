@@ -7,25 +7,20 @@ import Breadcrumbs from "@/Components/Breadcrumbs";
 import Pagination from "@/Components/Pagination";
 import { formatDistanceToNow } from "date-fns";
 import Header from "@/Components/Topography/Header";
-import "remixicon/fonts/remixicon.css";
 import Button from "@/Components/Buttons/Button";
-import { FormEvent, useRef, useEffect, CSSProperties } from "react";
-import Editor, {
-  EditorMethods,
-} from "@/Components/MarkdownEditor/MarkdownEditor";
-
-import "highlight.js/styles/atom-one-dark.min.css";
-import "../../../css/editor.css";
+import { FormEvent, useRef, useEffect } from "react";
+import Editor, { EditorMethods } from "@/Components/MarkdownEditor/MarkdownEditor";
 import hljs from "highlight.js";
 
-export default function Show({
-  post,
-  comments,
-}: {
+import "highlight.js/styles/atom-one-dark.min.css";
+import "remixicon/fonts/remixicon.css";
+import "../../../css/editor.css";
+
+export default function Show({ post, comments }: { 
   post: PostResponse;
   comments: PaginatedResponse<CommentResponse>;
 }) {
-  const commentRef = useRef<null | HTMLDivElement>(null);
+  const commentRef = useRef<HTMLDivElement>(null);
   const editorRef = useRef<EditorMethods>(null);
   const form = useForm<Comment>();
 
@@ -71,7 +66,8 @@ export default function Show({
       <div className="container my-5 px-4">
         <Breadcrumbs />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 my-5">
-          <div className="md:col-span-2 order-2 md:order-1  lg:container-sm lg:mx-auto">
+          <div
+            className="md:col-span-2 order-2 md:order-1 py-8 px-12 rounded-xl lg:container-sm lg:mx-auto bg-base-200">
             <Header className="font-bold text-2xl flex justify-between items-center">
               {post.title}
             </Header>
@@ -92,11 +88,11 @@ export default function Show({
             )}
 
             <div
-              className="prose w-[80ch] my-5 text-base-content"
+              className="prose md:w-[80ch] my-5 text-base-content"
               dangerouslySetInnerHTML={{ __html: post.html }}
             />
           </div>
-          <div className="card bg-base-200 p-5 order-1 md:order-2 my-5 md:my-0 self-start sticky top-10">
+          <div className="card bg-base-200 p-5 order-1 md:order-2 my-5 md:my-0 self-start md:sticky md:top-10">
             <ul className="py-2">
               <li>
                 {post.is_featured && (

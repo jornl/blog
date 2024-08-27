@@ -1,4 +1,4 @@
-import { forwardRef, RefAttributes, useImperativeHandle, useRef } from "react";
+import { forwardRef, RefAttributes, useCallback, useImperativeHandle, useRef } from "react";
 import {
   Editor,
   EditorContent,
@@ -13,6 +13,7 @@ import { Markdown } from "tiptap-markdown";
 import { CodeBlockLowlight } from "@tiptap/extension-code-block-lowlight";
 import { cn } from "@/Utilities/utils";
 import { all, createLowlight } from "lowlight";
+
 
 const lowlight = createLowlight(all);
 
@@ -45,10 +46,7 @@ const MarkdownEditor = forwardRef(
     }: EditorType & RefAttributes<HTMLDivElement>,
     ref,
   ) => {
-    const href = () => {
-    };
-
-    const editorRef = useRef<Editor | null>(null);
+    const editorRef = useRef<Editor>(null);
 
     const editorClasses = cn(
       "textarea textarea-bordered prose py-2 px-3 min-h-[38rem] w-full max-w-none rounded-t-none text-base-content",
@@ -66,7 +64,11 @@ const MarkdownEditor = forwardRef(
           }),
           Markdown,
           Underline,
-          Link,
+          Link.configure({
+            openOnClick: false,
+            autolink: true,
+            defaultProtocol: "https",
+          }),
           Placeholder.configure({
             placeholder,
           }),
@@ -88,18 +90,42 @@ const MarkdownEditor = forwardRef(
         onCreate: ({ editor }) => {
           editor.commands.setContent(content);
         },
+
       },
       [content, error],
     );
+    if (!editor) return null;
+    editorRef.current = editor;
+
+
+    const setLink = useCallback(() => {
+      const previousUrl = editor.getAttributes("link").href;
+      // TODO: Add a modal to add a link
+      const url = window.prompt("URL", previousUrl);
+
+      // cancelled
+      if (url === null) {
+        return;
+      }
+
+      // empty
+      if (url === "") {
+        editor.chain().focus().extendMarkRange("link").unsetLink()
+          .run();
+
+        return;
+      }
+
+      // update link
+      editor.chain().focus().extendMarkRange("link").setLink({ href: url })
+        .run();
+    }, [editor]);
 
     useImperativeHandle(ref, () => ({
       clearContent: () => {
         editorRef.current?.commands.clearContent(true);
       },
     }));
-
-    if (!editor) return null;
-    editorRef.current = editor;
 
     return (
       <>
@@ -201,8 +227,7 @@ const MarkdownEditor = forwardRef(
                 <MarkdownMenuButton
                   active={editor.isActive("link")}
                   title="Add link"
-                  onClick={() => {
-                  }}
+                  onClick={setLink}
                 >
                   <i className="ri-link" />
                 </MarkdownMenuButton>

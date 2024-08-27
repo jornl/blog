@@ -12,7 +12,7 @@ type IndexPageType = {
 };
 
 export default function Index({ posts }: IndexPageType) {
-  console.log(posts);
+
   return (
     <AdminLayout>
       <Head title="Administer Posts" />

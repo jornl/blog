@@ -4,7 +4,7 @@ import {
   useImperativeHandle,
   useRef,
 } from "react";
-import { cn } from "@/Utilities/utils";
+import { cn, mergeRefs } from "@/Utilities/utils";
 
 const FormInput = forwardRef(function (
   {
@@ -15,15 +15,12 @@ const FormInput = forwardRef(function (
   ref,
 ) {
   const localRef = useRef<HTMLInputElement>(null);
-  useImperativeHandle(ref, () => ({
-    focus: () => {
-      localRef.current?.focus();
-    },
-  }));
+
+  const mergedRef = mergeRefs([ref, localRef]);
 
   return (
     <input
-      ref={localRef}
+      ref={mergedRef}
       {...props}
       type={type}
       className={cn(

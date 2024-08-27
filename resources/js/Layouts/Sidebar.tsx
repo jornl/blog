@@ -74,7 +74,7 @@ export default function Sidebar() {
           <Accordion.Content>
             <ul>
               <li>
-                <SidebarLink href={route("categories.index")}>
+                <SidebarLink href={route("admin.users.index")}>
                   <i className="ri-layout-horizontal-line mr-3"></i>
                   Users
                 </SidebarLink>

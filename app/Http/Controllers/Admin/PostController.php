@@ -56,9 +56,9 @@ class PostController extends Controller
             'excerpt' => ['nullable', 'string'],
             'body' => ['required', 'string', 'min:50'],
             'post_image' => ['nullable', 'image'],
+            'is_published' => ['sometimes', 'required', 'boolean'],
             'published_at' => ['nullable', 'date'],
             'unpublished_at' => ['nullable', 'date'],
-            'is_published' => ['sometimes', 'required', 'boolean'],
             'category_id' => ['required', 'exists:categories,id'],
         ]);
 
@@ -99,8 +99,9 @@ class PostController extends Controller
             'excerpt' => ['nullable', 'string'],
             'body' => ['sometimes', 'required', 'string'],
             'image' => ['nullable', 'string'],
-            'published_at' => ['nullable', 'date'],
             'is_published' => ['sometimes', 'required', 'boolean'],
+            'published_at' => ['nullable', 'date'],
+            'unpublished_at' => ['nullable', 'date'],
             'category_id' => ['sometimes', 'required', 'exists:categories,id'],
         ]);
 

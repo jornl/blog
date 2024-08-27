@@ -27,8 +27,9 @@ class DatabaseSeeder extends Seeder
             ]);
 
         $posts = Post::factory(50)
+            ->withFixture()
             ->recycle($categories)
-            ->has($comments = Comment::factory(5)->recycle($users))
+            ->has($comments = Comment::factory(5)->withFixture()->recycle($users))
             ->create(['user_id' => $author->id]);
 
         Comment::factory(50)

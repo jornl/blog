@@ -10,19 +10,21 @@ import { Listbox, Transition } from "@headlessui/react";
 import { Post } from "@/types/posts";
 import AdminLayout from "@/Layouts/AdminLayout";
 
-export default function Create({
-  categories,
-}: {
-  categories: CategoryResponse[];
-}) {
+export default function Create(
+  {
+    post,
+    categories,
+  }: {
+    categories: CategoryResponse[];
+  }) {
   const [selectedCategory, setSelectedCategory] =
     useState<CategoryResponse | null>(null);
 
-  const { post, data, setData, errors, reset } = useForm<Post>();
+  const { post: save, data, setData, errors, reset } = useForm<Post>(post);
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-    post(route("admin.posts.store"));
+    save(route("admin.posts.store"));
   };
 
   return (

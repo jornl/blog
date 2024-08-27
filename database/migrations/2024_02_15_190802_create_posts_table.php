@@ -22,8 +22,8 @@ return new class extends Migration
 
             $table->string('image')->nullable();
 
-            $table->timestamp('published_at')->nullable();
-            $table->timestamp('unpublished_at')->nullable();
+            $table->date('published_at')->nullable();
+            $table->date('unpublished_at')->nullable();
             $table->boolean('is_published')->default(false);
             $table->boolean('is_featured')->default(false);
 

@@ -39,7 +39,8 @@ class Post extends Model
      * The attributes that should be cast.
      */
     protected $casts = [
-        'published_at' => 'datetime',
+        'published_at' => 'date',
+        'unpublished_at' => 'date',
         'is_published' => 'boolean',
         'is_featured' => 'boolean',
     ];

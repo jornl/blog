@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Comment;
 use App\Models\Post;
 use App\Models\User;
+use App\Support\CommentFixtures;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -24,5 +25,10 @@ class CommentFactory extends Factory
             'post_id' => Post::factory(),
             'body' => fake()->realText(150),
         ];
+    }
+
+    public function withFixture(): static
+    {
+        return $this->sequence(...(new CommentFixtures)->getFixtures());
     }
 }
