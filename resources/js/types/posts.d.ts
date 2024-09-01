@@ -1,7 +1,6 @@
-import { UserResponse } from "@/types/users";
-import { PaginatedResponse } from "@/types/index";
-import { CommentResponse } from "@/types/comments";
-import { CategoryResponse } from "@/types/categories";
+import { UserResource } from "@/types/users";
+import { CommentResource } from "@/types/comments";
+import { CategoryResource } from "@/types/categories";
 
 export interface Post {
   id: number;
@@ -15,21 +14,21 @@ export interface Post {
   unpublished_at?: string;
   is_published: boolean;
   is_featured: boolean;
-  category_id?: number;
+  category_id: number;
   created_at: string;
   updated_at: string;
   user_id?: number;
 }
 
-export interface PostResponse extends Post {
-  user: UserResponse;
-  comments: CommentResponse[];
-  comments_count: number;
-  likes_count: number;
-  category: CategoryResponse;
+export interface PostResource extends Post {
+  user?: UserResource;
+  comments: CommentResource[];
+  comments_count?: number;
+  likes_count?: number;
+  category: CategoryResource;
   routes: {
     show: string;
-    edit: string;
+    edit?: string;
   };
   can: {
     like: boolean;

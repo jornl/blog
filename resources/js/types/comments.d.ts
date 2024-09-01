@@ -1,5 +1,5 @@
-import { UserResponse } from "@/types/users";
-import { PostResponse } from "@/types/posts";
+import { UserResource } from "@/types/users";
+import { PostResource } from "@/types/posts";
 
 export interface Comment {
   id: number;
@@ -11,7 +11,8 @@ export interface Comment {
   post_id: number;
 }
 
-export interface CommentResponse extends Comment {
-  user: UserResponse;
-  post: PostResponse;
+export interface CommentResource extends Comment {
+  user: UserResource;
+  post: PostResource;
+  replies?: CommentResource[];
 }

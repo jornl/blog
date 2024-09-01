@@ -1,9 +1,9 @@
-import { UserResponse } from "@/types/users";
+import { UserResource } from "@/types/users";
 
 export type PageProps<
   T extends Record<string, unknown> = Record<string, unknown>,
 > = T & {
-  user: UserResponse | undefined;
+  user: UserResource | undefined;
 };
 
 export interface PaginatedResponse<T> {

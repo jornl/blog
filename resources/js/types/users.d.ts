@@ -1,3 +1,5 @@
+import { PostResource } from "@/types/posts";
+
 export interface User {
   id: number;
   name: string;
@@ -8,6 +10,7 @@ export interface User {
   updated_at: string;
 }
 
-export interface UserResponse extends User {
+export interface UserResource extends User {
   gravatar: string;
+  posts?: PostResource[];
 }

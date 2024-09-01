@@ -1,4 +1,4 @@
-import { PostResponse } from "@/types/posts";
+import { PostResource } from "@/types/posts";
 import { PaginatedResponse } from "@/types/index";
 
 export interface Category {
@@ -9,6 +9,7 @@ export interface Category {
   updated_at: string;
 }
 
-export interface CategoryResponse extends Category {
-  posts?: PaginatedResponse<PostResponse>;
+export interface CategoryResource extends Category {
+  posts?: PaginatedResponse<PostResource>;
+  post_count?: number;
 }

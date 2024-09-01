@@ -30,7 +30,7 @@ it('can delete a post', function () {
 });
 
 it('can be deleted even if it has comments', function () {
-    $post = Post::factory()->hasComments(1)->create();
+    $post = Post::factory()->hasComments()->create();
 
     actingAs(User::factory()->isAdmin()->create())
         ->delete(route('admin.posts.destroy', $post))

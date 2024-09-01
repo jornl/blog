@@ -42,6 +42,7 @@ class PostController extends Controller
     public function create()
     {
         return inertia('Admin/Posts/Create', [
+            'post' => new Post,
             'categories' => fn () => CategoryResource::collection(Category::all()),
         ]);
     }

@@ -1,13 +1,13 @@
-import { CategoryResponse } from "@/types/categories";
+import { CategoryResource } from "@/types/categories";
 import { PaginatedResponse } from "@/types";
-import { PostResponse } from "@/types/posts";
+import { PostResource } from "@/types/posts";
 
 export default function Show({
   category,
   posts,
 }: {
-  category: CategoryResponse;
-  posts: PaginatedResponse<PostResponse>;
+  category: CategoryResource;
+  posts: PaginatedResponse<PostResource>;
 }) {
   console.log(category);
   console.log(posts);

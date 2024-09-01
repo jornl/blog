@@ -1,9 +1,9 @@
-import { CategoryResponse } from "@/types/categories";
+import { CategoryResource } from "@/types/categories";
 import AdminLayout from "@/Layouts/AdminLayout";
 import { Head } from "@inertiajs/react";
 
 type ShowPageType = {
-  category: CategoryResponse;
+  category: CategoryResource;
 };
 
 export default function Show({ category }: ShowPageType) {

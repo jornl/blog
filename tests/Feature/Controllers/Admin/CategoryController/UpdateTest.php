@@ -16,17 +16,17 @@ beforeEach(function () {
 });
 
 it('requires authentication and administrator privileges', function () {
-    patch(route('categories.update', $this->category), $this->validData)
+    patch(route('admin.categories.update', $this->category), $this->validData)
         ->assertRedirect(route('login'));
 
     actingAs(User::factory()->create())
-        ->patch(route('categories.update', $this->category), $this->validData)
+        ->patch(route('admin.categories.update', $this->category), $this->validData)
         ->assertForbidden();
 });
 
 it('updates the category', function () {
     actingAs(User::factory()->isAdmin()->create())
-        ->patch(route('categories.update', $this->category), $this->validData)
+        ->patch(route('admin.categories.update', $this->category), $this->validData)
         ->assertRedirect(route('categories.index'));
 
     $this->category->refresh();
@@ -37,7 +37,7 @@ it('updates the category', function () {
 
 it('validates the input data', function ($value) {
     actingAs(User::factory()->isAdmin()->create())
-        ->patch(route('categories.update', $this->category), ['name' => $value])
+        ->patch(route('admin.categories.update', $this->category), ['name' => $value])
         ->assertInvalid('name');
 })->with([
     false,

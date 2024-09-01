@@ -52,13 +52,13 @@ export default function Sidebar() {
           <Accordion.Content>
             <ul className="flex flex-col w-full gap-1">
               <li>
-                <SidebarLink href={route("categories.index")}>
+                <SidebarLink href={route("admin.categories.index")}>
                   <i className="ri-layout-horizontal-line mr-3"></i>
                   Categories
                 </SidebarLink>
               </li>
               <li>
-                <SidebarLink href={route("categories.create")}>
+                <SidebarLink href={route("admin.categories.create")}>
                   <i className="ri-quill-pen-fill mr-3"></i>
                   Create category
                 </SidebarLink>

@@ -1,5 +1,5 @@
 import { PaginatedResponse } from "@/types";
-import { PostResponse } from "@/types/posts";
+import { PostResource } from "@/types/posts";
 import AdminLayout from "@/Layouts/AdminLayout";
 import { Head, Link } from "@inertiajs/react";
 import { formatDistanceToNow } from "date-fns";
@@ -8,11 +8,10 @@ import "remixicon/fonts/remixicon.css";
 import Pagination from "@/Components/Pagination";
 
 type IndexPageType = {
-  posts: PaginatedResponse<PostResponse>;
+  posts: PaginatedResponse<PostResource>;
 };
 
 export default function Index({ posts }: IndexPageType) {
-
   return (
     <AdminLayout>
       <Head title="Administer Posts" />
@@ -29,73 +28,73 @@ export default function Index({ posts }: IndexPageType) {
         <div className="overflow-x-auto mt-5">
           <table className="table table-zebra">
             <thead className="text-lg">
-            <tr>
-              <th>Title</th>
-              <th>Category</th>
-              <th>Created at</th>
-              <th>Published at</th>
-              <th>
-                <i className="ri-thumb-up-line"></i>
-              </th>
-              <th>
-                <i className="ri-chat-1-line"></i>
-              </th>
-              <th></th>
-            </tr>
+              <tr>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Created at</th>
+                <th>Published at</th>
+                <th>
+                  <i className="ri-thumb-up-line"></i>
+                </th>
+                <th>
+                  <i className="ri-chat-1-line"></i>
+                </th>
+                <th></th>
+              </tr>
             </thead>
             <tbody>
-            {posts.data.map((post) => (
-              <tr key={post.id}>
-                <td>
-                  <Link
-                    href={post.routes.show}
-                    className="hover:text-primary"
-                  >
-                    {post.title}
-                  </Link>
-                </td>
-                <td>
-                  <Link
-                    href={route("admin.categories.show", post.category.slug)}
-                    className="hover:text-primary"
-                  >
-                    {post.category.name}
-                  </Link>
-                </td>
-                <td>
-                  {formatDistanceToNow(new Date(post.created_at), {
-                    addSuffix: true,
-                  })}
-                </td>
-                <td>
-                  {post.published_at
-                    ? formatDistanceToNow(new Date(post.published_at), {
+              {posts.data.map((post) => (
+                <tr key={post.id}>
+                  <td>
+                    <Link
+                      href={post.routes.show}
+                      className="hover:text-primary"
+                    >
+                      {post.title}
+                    </Link>
+                  </td>
+                  <td>
+                    <Link
+                      href={route("admin.categories.show", post.category.slug)}
+                      className="hover:text-primary"
+                    >
+                      {post.category.name}
+                    </Link>
+                  </td>
+                  <td>
+                    {formatDistanceToNow(new Date(post.created_at), {
                       addSuffix: true,
-                    })
-                    : "Draft"}
-                </td>
-                <td>{post.likes_count}</td>
-                <td>{post.comments_count}</td>
+                    })}
+                  </td>
+                  <td>
+                    {post.published_at
+                      ? formatDistanceToNow(new Date(post.published_at), {
+                          addSuffix: true,
+                        })
+                      : "Draft"}
+                  </td>
+                  <td>{post.likes_count}</td>
+                  <td>{post.comments_count}</td>
 
-                <td className="text-right">
-                  <Link href={post.routes.show}>
-                    <button className="btn btn-ghost hover:bg-primary hover:text-primary-content mr-3">
-                      <i className="ri-eye-line"></i>
+                  <td className="text-right">
+                    <Link href={post.routes.show}>
+                      <button className="btn btn-ghost btn-sm hover:bg-primary hover:text-primary-content mr-3">
+                        <i className="ri-eye-line"></i>
+                      </button>
+                    </Link>
+
+                    <Link
+                      href={post.routes.edit ?? ""}
+                      className="btn btn-ghost btn-sm hover:bg-primary hover:text-primary-content mr-3"
+                    >
+                      <i className="ri-edit-line"></i>
+                    </Link>
+                    <button className="btn btn-ghost btn-sm hover:bg-error hover:text-error-content">
+                      <i className="ri-delete-bin-line"></i>
                     </button>
-                  </Link>
-
-                  <Link
-                    href={post.routes.edit}
-                    className="btn btn-ghost hover:bg-primary hover:text-primary-content mr-3"
-                  >
-                    <i className="ri-edit-line"></i>
-                  </Link>
-                  <button className="btn btn-ghost hover:bg-error hover:text-error-content">
-                    <i className="ri-delete-bin-line"></i>
-                  </button>
-                </td>
-              </tr>
-            ))}
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
           <Pagination meta={posts.meta} />

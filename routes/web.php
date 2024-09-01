@@ -48,7 +48,8 @@ Route::middleware('auth')->group(function () {
     Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('posts', AdminPostController::class);
         Route::resource('users', AdminUserController::class);
-        Route::get('/category/{category}', [AdminCategoryController::class, 'show'])->name('categories.show');
+        Route::resource('categories', AdminCategoryController::class);
+        //        Route::get('/category/{category}', [AdminCategoryController::class, 'show'])->name('categories.show');
 
     });
 

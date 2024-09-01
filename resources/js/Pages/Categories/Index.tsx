@@ -1,10 +1,10 @@
 import { PaginatedResponse } from "@/types";
-import { CategoryResponse } from "@/types/categories";
+import { CategoryResource } from "@/types/categories";
 
 export default function Index({
   categories,
 }: {
-  categories: PaginatedResponse<CategoryResponse>;
+  categories: PaginatedResponse<CategoryResource>;
 }) {
   console.log(categories);
   return <div></div>;

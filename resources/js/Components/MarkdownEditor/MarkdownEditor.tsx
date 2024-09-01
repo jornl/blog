@@ -1,4 +1,10 @@
-import { forwardRef, RefAttributes, useCallback, useImperativeHandle, useRef } from "react";
+import {
+  forwardRef,
+  RefAttributes,
+  useCallback,
+  useImperativeHandle,
+  useRef,
+} from "react";
 import {
   Editor,
   EditorContent,
@@ -13,20 +19,18 @@ import { Markdown } from "tiptap-markdown";
 import { CodeBlockLowlight } from "@tiptap/extension-code-block-lowlight";
 import { cn } from "@/Utilities/utils";
 import { all, createLowlight } from "lowlight";
-
-
-const lowlight = createLowlight(all);
-
 import "remixicon/fonts/remixicon.css";
 import "../../../css/placeholder.css";
 import MarkdownMenuButton from "@/Components/MarkdownEditor/MarkdownMenuButton";
 import MarkdownCodeBlock from "@/Components/MarkdownEditor/MarkdownCodeBlock";
 
+const lowlight = createLowlight(all);
+
 type EditorType = {
   placeholder?: string;
   className?: string;
   content?: string;
-  onChange: (e: any) => void;
+  onChange: (e: string) => void;
   error?: boolean;
 };
 
@@ -49,7 +53,7 @@ const MarkdownEditor = forwardRef(
     const editorRef = useRef<Editor>(null);
 
     const editorClasses = cn(
-      "textarea textarea-bordered prose py-2 px-3 min-h-[38rem] w-full max-w-none rounded-t-none text-base-content",
+      "textarea textarea-bordered prose py-2 px-3 min-h-[38rem] max-h-[65rem] w-full max-w-none rounded-t-none text-base-content overflow-x-auto",
       className,
     );
 
@@ -88,15 +92,13 @@ const MarkdownEditor = forwardRef(
         },
 
         onCreate: ({ editor }) => {
-          editor.commands.setContent(content);
+          editor.commands.setContent(content, false);
         },
-
       },
       [content, error],
     );
     if (!editor) return null;
     editorRef.current = editor;
-
 
     const setLink = useCallback(() => {
       const previousUrl = editor.getAttributes("link").href;
@@ -110,14 +112,17 @@ const MarkdownEditor = forwardRef(
 
       // empty
       if (url === "") {
-        editor.chain().focus().extendMarkRange("link").unsetLink()
-          .run();
+        editor.chain().focus().extendMarkRange("link").unsetLink().run();
 
         return;
       }
 
       // update link
-      editor.chain().focus().extendMarkRange("link").setLink({ href: url })
+      editor
+        .chain()
+        .focus()
+        .extendMarkRange("link")
+        .setLink({ href: url })
         .run();
     }, [editor]);
 
@@ -251,7 +256,7 @@ const MarkdownEditor = forwardRef(
                 </MarkdownMenuButton>
               </li>
             </menu>
-            <EditorContent editor={editor} content={content} />
+            <EditorContent editor={editor} />
           </div>
         )}
       </>

@@ -1,31 +1,31 @@
-import { UserResource } from "@/types/users";
+import { CategoryResource } from "@/types/categories";
+import { PaginatedResponse } from "@/types";
 import AdminLayout from "@/Layouts/AdminLayout";
 import { Head } from "@inertiajs/react";
 import { Table } from "@/Components/Table";
-import { PaginatedResponse } from "@/types";
 
 type IndexPageProps = {
-  users: PaginatedResponse<UserResource>;
+  categories: PaginatedResponse<CategoryResource>;
 };
 
-const Index = ({ users }: IndexPageProps) => {
-  console.log(users);
+export default function Index({ categories }: IndexPageProps) {
+  console.log(categories);
   return (
     <AdminLayout>
-      <Head title="Users" />
+      <Head title="Categories" />
       <Table zebra={true}>
         <Table.Head>
           <Table.Row>
             <Table.HeaderCell>Name</Table.HeaderCell>
-            <Table.HeaderCell>Email</Table.HeaderCell>
+            <Table.HeaderCell>Slug</Table.HeaderCell>
             <Table.HeaderCell>Actions</Table.HeaderCell>
           </Table.Row>
         </Table.Head>
         <Table.Body>
-          {users.data.map((user) => (
-            <Table.Row key={user.id}>
-              <Table.DataCell>{user.name}</Table.DataCell>
-              <Table.DataCell>{user.email}</Table.DataCell>
+          {categories.data.map((category) => (
+            <Table.Row key={category.id}>
+              <Table.DataCell>{category.name}</Table.DataCell>
+              <Table.DataCell>{category.slug}</Table.DataCell>
               <Table.DataCell>
                 <a href="#">Edit</a>
                 <a href="#">Delete</a>
@@ -36,6 +36,4 @@ const Index = ({ users }: IndexPageProps) => {
       </Table>
     </AdminLayout>
   );
-};
-
-export default Index;
+}

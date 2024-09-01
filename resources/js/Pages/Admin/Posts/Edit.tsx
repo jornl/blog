@@ -1,5 +1,5 @@
-import { Post, PostResponse } from "@/types/posts";
-import { CategoryResponse } from "@/types/categories";
+import { Post, PostResource } from "@/types/posts";
+import { CategoryResource } from "@/types/categories";
 
 import AdminLayout from "@/Layouts/AdminLayout";
 import PostForm from "@/Pages/Admin/Posts/Partials/PostForm";
@@ -7,20 +7,18 @@ import Breadcrumbs from "@/Components/Breadcrumbs";
 import { FormEvent } from "react";
 import { useForm } from "@inertiajs/react";
 
-export default function Edit(
-  {
-    post,
-    categories,
-  }: {
-    post: PostResponse;
-    categories: CategoryResponse[];
-  }) {
-  const { patch: save, setData, errors, reset } = useForm<Post>(post);
+export default function Edit({
+  post,
+  categories,
+}: {
+  post: PostResource;
+  categories: CategoryResource[];
+}) {
+  const { patch: save, data, setData, errors, reset } = useForm<Post>(post);
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-    save(route("admin.posts.update", post));
-    console.log("submitting");
+    save(route("admin.posts.update", post.id));
   };
 
   return (
@@ -35,21 +33,23 @@ export default function Edit(
           <PostForm
             setData={setData}
             errors={errors}
+            data={data}
             categories={categories}
             category={post.category}
             post={post}
-          />
-          <button className="btn btn-outline btn-accent my-5 w-full">
-            Update Post
-          </button>
-
-          <button
-            className="btn btn-outline btn-neutral w-full"
-            onClick={() => reset()}
-            type="button"
           >
-            Cancel
-          </button>
+            <button className="btn btn-outline btn-accent my-5 w-full">
+              Update Post
+            </button>
+
+            <button
+              className="btn btn-outline btn-neutral w-full"
+              onClick={() => reset()}
+              type="button"
+            >
+              Cancel
+            </button>
+          </PostForm>
         </form>
       </div>
     </AdminLayout>

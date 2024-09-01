@@ -22,7 +22,7 @@ it('requires authentication and admin', function () {
         ->assertRedirect(route('login'));
 
     actingAs(User::factory()->create())
-        ->post(route('admin.posts.store'), [])
+        ->post(route('admin.posts.store'), $this->validData)
         ->assertForbidden();
 });
 

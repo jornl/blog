@@ -4,7 +4,7 @@ use App\Models\Post;
 use App\Models\User;
 
 beforeEach(function () {
-    $this->post = Post::factory()->hasComments(1)->create();
+    $this->post = Post::factory()->hasComments()->create();
 });
 
 it('requires authentication', function () {

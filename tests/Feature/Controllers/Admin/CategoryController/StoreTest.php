@@ -13,23 +13,23 @@ beforeEach(function () {
 });
 
 it('requires authentication and administrator privileges', function () {
-    post(route('categories.store'), $this->validData)
+    post(route('admin.categories.store'), $this->validData)
         ->assertRedirect(route('login'));
 
     actingAs(User::factory()->create())
-        ->post(route('categories.store'), $this->validData)
+        ->post(route('admin.categories.store'), $this->validData)
         ->assertForbidden();
 });
 
 it('can store a category', function () {
     actingAs(User::factory()->create(['is_admin' => true]))
-        ->post(route('categories.store'), $this->validData);
+        ->post(route('admin.categories.store'), $this->validData);
 
     $this->assertDatabaseHas('categories', $this->validData);
 });
 
 it('redirects to the category page', function () {
     actingAs(User::factory()->create(['is_admin' => true]))
-        ->post(route('categories.store'), $this->validData)
+        ->post(route('admin.categories.store'), $this->validData)
         ->assertRedirect(route('categories.show', Category::latest('id')->first()));
 });

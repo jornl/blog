@@ -1,5 +1,5 @@
-import { PostResponse } from "@/types/posts";
-import { CommentResponse, Comment } from "@/types/comments";
+import { PostResource } from "@/types/posts";
+import { Comment, CommentResource } from "@/types/comments";
 import { PageProps, PaginatedResponse } from "@/types";
 import BaseLayout from "@/Layouts/BaseLayout";
 import { Head, Link, useForm, usePage } from "@inertiajs/react";
@@ -8,17 +8,22 @@ import Pagination from "@/Components/Pagination";
 import { formatDistanceToNow } from "date-fns";
 import Header from "@/Components/Topography/Header";
 import Button from "@/Components/Buttons/Button";
-import { FormEvent, useRef, useEffect } from "react";
-import Editor, { EditorMethods } from "@/Components/MarkdownEditor/MarkdownEditor";
+import { FormEvent, useRef } from "react";
+import Editor, {
+  EditorMethods,
+} from "@/Components/MarkdownEditor/MarkdownEditor";
 import hljs from "highlight.js";
 
 import "highlight.js/styles/atom-one-dark.min.css";
 import "remixicon/fonts/remixicon.css";
 import "../../../css/editor.css";
 
-export default function Show({ post, comments }: { 
-  post: PostResponse;
-  comments: PaginatedResponse<CommentResponse>;
+export default function Show({
+  post,
+  comments,
+}: {
+  post: PostResource;
+  comments: PaginatedResponse<CommentResource>;
 }) {
   const commentRef = useRef<HTMLDivElement>(null);
   const editorRef = useRef<EditorMethods>(null);
@@ -56,9 +61,13 @@ export default function Show({ post, comments }: {
     });
   };
 
-  useEffect(() => {
-    hljs.highlightAll();
-  }, []);
+  document
+    .querySelectorAll(
+      'pre code[data-highlighted]:not(code[data-highlighted="yes"]) ',
+    )
+    .forEach((element) => {
+      hljs.highlightElement(element as HTMLElement);
+    });
 
   return (
     <BaseLayout>
@@ -66,8 +75,7 @@ export default function Show({ post, comments }: {
       <div className="container my-5 px-4">
         <Breadcrumbs />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 my-5">
-          <div
-            className="md:col-span-2 order-2 md:order-1 py-8 px-12 rounded-xl lg:container-sm lg:mx-auto bg-base-200">
+          <div className="md:col-span-2 order-2 md:order-1 py-8 px-12 rounded-xl lg:container-sm lg:mx-auto bg-base-200">
             <Header className="font-bold text-2xl flex justify-between items-center">
               {post.title}
             </Header>
@@ -129,15 +137,15 @@ export default function Show({ post, comments }: {
                 <span className="font-semibold">Category:</span>{" "}
                 <Link
                   className="link-accent"
-                  href={route("categories.show", post.category.slug)}
+                  href={route("categories.show", post.category?.slug)}
                 >
-                  {post.category.name}
+                  {post.category?.name}
                 </Link>
               </li>
               <li>
                 <span className="font-semibold">Author:</span>{" "}
                 <Link className="link-accent" href={route("about")}>
-                  {post.user.name}
+                  {post.user?.name}
                 </Link>
               </li>
             </ul>

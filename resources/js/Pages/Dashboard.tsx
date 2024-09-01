@@ -1,8 +1,7 @@
 import { Head, Link } from "@inertiajs/react";
-import BaseLayout from "@/Layouts/BaseLayout";
-import { CategoryResponse } from "@/types/categories";
-import { PostResponse } from "@/types/posts";
-import { CommentResponse } from "@/types/comments";
+import { CategoryResource } from "@/types/categories";
+import { PostResource } from "@/types/posts";
+import { CommentResource } from "@/types/comments";
 import { PaginatedResponse } from "@/types";
 import Breadcrumbs from "@/Components/Breadcrumbs";
 import { formatDistanceToNow } from "date-fns";
@@ -11,16 +10,16 @@ import AdminLayout from "@/Layouts/AdminLayout";
 import "remixicon/fonts/remixicon.css";
 
 type DashboardPageType = {
-  categories: CategoryResponse[];
-  posts: PaginatedResponse<PostResponse>;
-  comments: PaginatedResponse<CommentResponse>;
+  categories: CategoryResource[];
+  posts: PaginatedResponse<PostResource>;
+  comments: PaginatedResponse<CommentResource>;
 };
 
 export default function Dashboard({
-                                    categories,
-                                    posts,
-                                    comments,
-                                  }: DashboardPageType) {
+  categories,
+  posts,
+  comments,
+}: DashboardPageType) {
   return (
     <AdminLayout>
       <Head title="Dashboard" />
@@ -58,7 +57,8 @@ export default function Dashboard({
                     {post.comments_count}
                   </p>
                   <p>
-                    <i className="ri-thumb-up-fill mr-2"></i>{post.likes_count}
+                    <i className="ri-thumb-up-fill mr-2"></i>
+                    {post.likes_count}
                   </p>
                 </div>
               </div>

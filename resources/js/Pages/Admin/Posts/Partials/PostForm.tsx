@@ -1,36 +1,44 @@
-import { FormEvent, Fragment, useState } from "react";
-import { FormContext } from "@/Pages/Admin/Posts/Partials/FormContext";
-import { useForm } from "@inertiajs/react";
-import PostOptions from "@/Pages/Admin/Posts/Partials/PostOptions";
+import { Fragment, ReactNode, useState } from "react";
 import FormInput from "@/Components/Form/FormInput";
 import { cn } from "@/Utilities/utils";
-import { Disclosure, Listbox, Transition } from "@headlessui/react";
-import { CategoryResponse } from "@/types/categories";
+import {
+  Disclosure,
+  DisclosureButton,
+  Label,
+  Listbox,
+  ListboxButton,
+  ListboxOption,
+  ListboxOptions,
+  Transition,
+} from "@headlessui/react";
+import { Category, CategoryResource } from "@/types/categories";
 import Editor from "@/Components/MarkdownEditor/MarkdownEditor";
 import { Post } from "@/types/posts";
-import { FormProvider } from "@/Pages/Admin/Posts/Partials/FormContext";
 
 type PostFormProps = {
   post: Post;
-  category: CategoryResponse;
-  categories: CategoryResponse[];
-  setData: (key: string, value: any) => void;
+  category?: Category | undefined;
+  categories: CategoryResource[];
+  children: ReactNode;
+  errors: Partial<Record<keyof Post, string>>;
+  data: Post;
+  setData: (key: string | Function, value?: any) => void;
 };
 
-const PostForm = (
-  {
-    post,
-    category,
-    categories,
-    ...props
-  }: PostFormProps) => {
+const PostForm = ({
+  post,
+  category: postCategory,
+  categories,
+  children,
+  ...props
+}: PostFormProps) => {
   const [show, setShow] = useState(true);
 
-  const [selectedCategory, setSelectedCategory] =
-    useState<CategoryResponse | null>(category ?? null);
+  const [selectedCategory, setSelectedCategory] = useState<
+    Category | undefined
+  >(postCategory ?? undefined);
 
-  const { setData, errors } = props;
-  console.log(post);
+  const { data, setData, errors } = props;
 
   return (
     <>
@@ -49,7 +57,7 @@ const PostForm = (
               required={true}
               placeholder="Post Title"
               onChange={(e) => setData("title", e.target.value)}
-              defaultValue={post.title ?? ""}
+              value={data.title ?? ""}
             />
           </label>
           {errors.title && (
@@ -58,14 +66,14 @@ const PostForm = (
         </div>
         <div className="my-5 relative">
           <Listbox
-            value={selectedCategory}
-            onChange={(e: CategoryResponse): void => {
-              setSelectedCategory(e);
-              setData("category_id", e.id);
+            defaultValue={selectedCategory}
+            onChange={(event) => {
+              setSelectedCategory(event as Category);
+              setData("category_id", (event as Category).id);
             }}
           >
-            <Listbox.Label className="label">Category</Listbox.Label>
-            <Listbox.Button
+            <Label className="label">Category</Label>
+            <ListboxButton
               className={cn(
                 "input input-bordered w-full mb-1 relative text-left",
                 { "input-error": errors.category_id },
@@ -73,39 +81,32 @@ const PostForm = (
               id="category"
             >
               {selectedCategory?.name || "Select a category"}
-            </Listbox.Button>
-            <Transition
-              as={Fragment}
-              leave="transition ease-in duration-100"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
+            </ListboxButton>
+
+            <ListboxOptions
+              transition
+              as="ul"
+              className="
+                absolute w-full max-h-64 overflow-y-auto z-[100]
+                origin-top transition duration-100 ease-in data-[closed]:scale-95 data-[closed]:opacity-0
+                divide-y divide-base-100 rounded-md shadow-lg bg-base-200"
             >
-              <Listbox.Options className="mt-1 absolute w-full max-h-64 overflow-auto z-[100]">
-                {categories.map((category) => (
-                  <Listbox.Option
-                    as={"div"}
-                    key={category.id}
-                    value={category}
-                  >
-                    {({ active, selected }) => (
-                      <li
-                        className={cn(
-                          "opacity-1 px-4 py-2 relative block bg-base-200 first:rounded-t-md last:rounded-b-md hover:bg-secondary hover:text-secondary-content cursor-pointer",
-                          {
-                            "bg-secondary text-white": active || selected,
-                          },
-                        )}
-                      >
-                        {category.name}
-                        {selected && (
-                          <span className="ri-check-line ml-5"></span>
-                        )}
-                      </li>
-                    )}
-                  </Listbox.Option>
-                ))}
-              </Listbox.Options>
-            </Transition>
+              {categories.map((category) => (
+                <ListboxOption
+                  as="li"
+                  key={category.id}
+                  value={category}
+                  className="
+                    group px-4 py-2
+                    relative block hover:bg-secondary hover:text-white cursor-pointer
+                    data-[focus]:bg-secondary data-[focus]:text-white data-[selected]:bg-secondary
+                    data-[selected]:text-white data-[selected]:font-semibold"
+                >
+                  {category.name}
+                  <span className="ri-check-line ml-5 hidden group-data-[selected]:inline" />
+                </ListboxOption>
+              ))}
+            </ListboxOptions>
           </Listbox>
           {errors.category_id && (
             <p className="text-xs mt-1 text-error">{errors.category_id}</p>
@@ -122,7 +123,7 @@ const PostForm = (
               id="excerpt"
               placeholder="Excerpt"
               onChange={(e) => setData("excerpt", e.target.value)}
-              value={post.excerpt ?? ""}
+              value={data.excerpt ?? ""}
             />
           </label>
         </div>
@@ -161,12 +162,12 @@ const PostForm = (
       </div>
       <div>
         <Disclosure as="div" className="collapse bg-base-200 relative">
-          <Disclosure.Button
+          <DisclosureButton
             className="collapse-title text-xl font-medium"
             onClick={() => setShow(!show)}
           >
             Options
-          </Disclosure.Button>
+          </DisclosureButton>
           <Transition
             as={Fragment}
             show={show}
@@ -185,10 +186,10 @@ const PostForm = (
                     <input
                       type="checkbox"
                       className="toggle toggle-accent"
-                      checked={post.is_published}
+                      checked={data.is_published}
                       onChange={(e) => {
                         if (!e.target.checked) {
-                          return setData((prevState: any) => ({
+                          return setData((prevState: Partial<Post>) => ({
                             ...prevState,
                             published_at: "",
                             unpublished_at: "",
@@ -200,7 +201,7 @@ const PostForm = (
                     />
                   </label>
                 </div>
-                {post.is_published && (
+                {data.is_published && (
                   <>
                     <div className="form-control mb-3">
                       <label className="label">
@@ -209,9 +210,20 @@ const PostForm = (
                       <FormInput
                         type="date"
                         className="w-full"
-                        defaultValue={new Date(post.published_at).toISOString().split("T")[0]}
-
-                        onChange={(e) => setData("published_at", e.target.value)}
+                        value={
+                          post.published_at
+                            ? new Date(post.published_at)
+                                .toISOString()
+                                .split("T")[0]
+                            : data.published_at
+                              ? new Date(data.published_at)
+                                  .toISOString()
+                                  .split("T")[0]
+                              : ""
+                        }
+                        onChange={(e) =>
+                          setData("published_at", e.target.value)
+                        }
                       />
                     </div>
                     <div className="form-control">
@@ -221,11 +233,20 @@ const PostForm = (
                       <FormInput
                         type="date"
                         className="w-full"
-                        defaultValue={
-                          new Date(post.unpublished_at).toISOString().split("T")[0] === "1970-01-01" ? "" : new Date(post.unpublished_at).toISOString().split("T")[0]
+                        value={
+                          post.unpublished_at
+                            ? new Date(post.unpublished_at)
+                                .toISOString()
+                                .split("T")[0]
+                            : data.unpublished_at
+                              ? new Date(data.unpublished_at)
+                                  .toISOString()
+                                  .split("T")[0]
+                              : ""
                         }
-
-                        onChange={(e) => setData("unpublished_at", e.target.value)}
+                        onChange={(e) =>
+                          setData("unpublished_at", e.target.value)
+                        }
                       />
                     </div>
                   </>
@@ -237,7 +258,7 @@ const PostForm = (
                   <input
                     type="checkbox"
                     className="toggle toggle-accent"
-                    checked={post.is_featured}
+                    checked={data.is_featured}
                     onChange={(e) => setData("is_featured", e.target.checked)}
                   />
                 </label>
@@ -245,6 +266,7 @@ const PostForm = (
             </Disclosure.Panel>
           </Transition>
         </Disclosure>
+        {children}
       </div>
     </>
   );

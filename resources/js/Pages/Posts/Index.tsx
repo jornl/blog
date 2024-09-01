@@ -1,4 +1,4 @@
-import { PostResponse } from "@/types/posts";
+import { PostResource } from "@/types/posts";
 import { PaginatedResponse } from "@/types";
 import BaseLayout from "@/Layouts/BaseLayout";
 import { Head, Link } from "@inertiajs/react";
@@ -10,7 +10,7 @@ import { cn } from "@/Utilities/utils";
 export default function Index({
   posts,
 }: {
-  posts: PaginatedResponse<PostResponse>;
+  posts: PaginatedResponse<PostResource>;
 }) {
   return (
     <BaseLayout>
@@ -47,10 +47,10 @@ export default function Index({
                     </p>
                     <p className="text-right">
                       <Link
-                        href={route("categories.show", post.category.slug)}
+                        href={route("categories.show", post.category?.slug)}
                         className="hover:underline hover:text-secondary"
                       >
-                        {post.category.name}
+                        {post.category?.name}
                       </Link>
                     </p>
                   </div>
