@@ -18,7 +18,7 @@ export default function Index({
       <div className="container px-4 my-5">
         <Breadcrumbs />
         <h1 className="text-3xl font-bold">Latest Posts</h1>
-        <div className="posts md:grid md:grid-cols-3 md:gap-4 my-5 space-y-4">
+        <div className="posts md:grid md:grid-cols-3 md:gap-8 my-5 space-y-4">
           {posts.data.map((post, index) => (
             <div
               key={post.id}
@@ -28,10 +28,7 @@ export default function Index({
             >
               {post.image && (
                 <figure className="max-h-64">
-                  <img
-                    src={`/storage/${post.image}`}
-                    alt={`${post.title} image`}
-                  />
+                  <img src={`/${post.image}`} alt={`${post.title} image`} />
                 </figure>
               )}
               <div className="card-body">

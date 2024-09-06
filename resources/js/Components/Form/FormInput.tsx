@@ -1,10 +1,10 @@
-import {
-  forwardRef,
-  InputHTMLAttributes,
-  useImperativeHandle,
-  useRef,
-} from "react";
+import { forwardRef, InputHTMLAttributes, useRef } from "react";
 import { cn, mergeRefs } from "@/Utilities/utils";
+
+export type FormInputProps = {
+  type?: "text" | "password" | "email" | "file" | "number" | "tel";
+  className?: string;
+} & InputHTMLAttributes<HTMLInputElement>;
 
 const FormInput = forwardRef(function (
   {

@@ -9,7 +9,6 @@ use App\Http\Sorters\PostSorter;
 use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -68,7 +67,7 @@ class PostController extends Controller
         unset($attributes['post_image']);
 
         if ($request->file('post_image')) {
-            $attributes['image'] = Storage::disk('images')->put('images', $request->file('post_image'));
+            $attributes['image'] = $request->file('post_image')->store('images');
         }
 
         $post = Post::create([
@@ -99,12 +98,18 @@ class PostController extends Controller
             'title' => ['sometimes', 'required', 'string', 'max:255', 'min:5'],
             'excerpt' => ['nullable', 'string'],
             'body' => ['sometimes', 'required', 'string'],
-            'image' => ['nullable', 'string'],
+            'post_image' => ['sometimes', 'image'],
             'is_published' => ['sometimes', 'required', 'boolean'],
             'published_at' => ['nullable', 'date'],
             'unpublished_at' => ['nullable', 'date'],
             'category_id' => ['sometimes', 'required', 'exists:categories,id'],
         ]);
+
+        unset($attributes['post_image']);
+
+        if ($request->file('post_image')) {
+            $attributes['image'] = $request->file('post_image')->store('images');
+        }
 
         $post->update($attributes);
 

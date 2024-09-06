@@ -1,4 +1,4 @@
-import { Fragment, ReactNode, useState } from "react";
+import { FormEvent, Fragment, ReactNode, useState } from "react";
 import FormInput from "@/Components/Form/FormInput";
 import { cn } from "@/Utilities/utils";
 import {
@@ -14,15 +14,13 @@ import {
 import { Category, CategoryResource } from "@/types/categories";
 import Editor from "@/Components/MarkdownEditor/MarkdownEditor";
 import { Post } from "@/types/posts";
+import { router, useForm } from "@inertiajs/react";
 
 type PostFormProps = {
   post: Post;
   category?: Category | undefined;
   categories: CategoryResource[];
   children: ReactNode;
-  errors: Partial<Record<keyof Post, string>>;
-  data: Post;
-  setData: (key: string | Function, value?: any) => void;
 };
 
 const PostForm = ({
@@ -30,7 +28,6 @@ const PostForm = ({
   category: postCategory,
   categories,
   children,
-  ...props
 }: PostFormProps) => {
   const [show, setShow] = useState(true);
 
@@ -38,10 +35,33 @@ const PostForm = ({
     Category | undefined
   >(postCategory ?? undefined);
 
-  const { data, setData, errors } = props;
+  const {
+    post: save,
+    data,
+    setData,
+    errors,
+    reset,
+    progress,
+  } = useForm<Post>(post);
+
+  const handleSubmit = (event: FormEvent) => {
+    event.preventDefault();
+
+    if (post.id) {
+      return router.post(route("admin.posts.update", post.id), {
+        ...data,
+        _method: "patch",
+      });
+    }
+
+    return save(route("admin.posts.store"));
+  };
 
   return (
-    <>
+    <form
+      onSubmit={(event) => handleSubmit(event)}
+      className="form my-5 grid grid-cols-1 md:grid-cols-2 gap-5"
+    >
       <div>
         <div className="my-5">
           <label className="form-control w-full">
@@ -128,7 +148,16 @@ const PostForm = ({
           </label>
         </div>
 
-        <div className="my-5">
+        <div className="my-10">
+          {post.image && (
+            <figure className="mb-5">
+              <img
+                className="w-full max-h-96 object-cover rounded-xl"
+                src={`/${post.image}`}
+                alt={`/${post.title}'s header image`}
+              />
+            </figure>
+          )}
           <label className="form-control w-full">
             <div className="label">
               <span className="label-text">Image</span>
@@ -136,16 +165,19 @@ const PostForm = ({
             <FormInput
               type="file"
               id="image"
+              name="post_image"
               accept="image/*"
-              name="image"
-              onChange={(e) => {
-                if (!e.target.files || e.target.files.length === 0) {
-                  return;
-                }
-                setData("post_image", e.target.files[0]);
-              }}
+              onChange={(e) => setData("post_image", e.target.files[0])}
             />
           </label>
+          {progress && (
+            <progress value={progress.percentage} max="100">
+              {progress.percentage}%
+            </progress>
+          )}
+          {errors.post_image && (
+            <p className="text-xs mt-1 text-error">{errors.post_image}</p>
+          )}
         </div>
 
         <div className="my-5">
@@ -267,8 +299,15 @@ const PostForm = ({
           </Transition>
         </Disclosure>
         {children}
+        <button
+          className="btn btn-outline btn-neutral w-full"
+          onClick={() => reset()}
+          type="button"
+        >
+          Cancel
+        </button>
       </div>
-    </>
+    </form>
   );
 };
 

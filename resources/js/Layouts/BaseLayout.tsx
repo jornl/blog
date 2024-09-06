@@ -8,7 +8,7 @@ export default function BaseLayout({ children }: { children?: ReactNode }) {
         <Navigation />
       </header>
       <main>{children}</main>
-      <footer></footer>
+      <footer className="py-12"></footer>
     </>
   );
 }

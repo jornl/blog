@@ -20,6 +20,7 @@ class PostResource extends JsonResource
             'body' => $this->body,
             'html' => $this->html,
             'image' => $this->image,
+            'post_image' => $this->image ?? null,
             'published_at' => $this->published_at,
             'unpublished_at' => $this->unpublished_at,
             'is_published' => $this->is_published,
