@@ -39,13 +39,26 @@ class PostController extends Controller
             return redirect($post->route($request->query()), status: 301);
         }
 
+        $comments = $post
+            ->comments()
+            ->with('replies', 'replies.user')
+            ->withCount('replies')
+            ->latest()
+            ->latest('id')
+            ->paginate(10);
+
+        $categoryPosts = $post->category
+            ->posts()
+            ->where('id', '!=', $post->id)
+            ->published()
+            ->trending()
+            ->limit(3)
+            ->get();
+
         return inertia('Posts/Show', [
             'post' => PostResource::make($post->load(['user', 'category'])->loadCount(['likes', 'comments'])),
-            'comments' => CommentResource::collection($post
-                ->comments()
-                ->latest()
-                ->latest('id')
-                ->paginate(10)),
+            'comments' => CommentResource::collection($comments),
+            'categoryPosts' => PostResource::collection($categoryPosts),
         ]);
     }
 }

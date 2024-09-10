@@ -1,15 +1,13 @@
 import { type PostResource } from "@/types/posts";
-import { type Comment, type CommentResource } from "@/types/comments";
+import { type CommentResource, type CommentType } from "@/types/comments";
 import { type PageProps, type PaginatedResponse } from "@/types";
 import BaseLayout from "@/Layouts/BaseLayout";
 import { Head, Link, useForm, usePage } from "@inertiajs/react";
 import Breadcrumbs from "@/Components/Breadcrumbs";
-import Pagination from "@/Components/Pagination";
 import { formatDistanceToNow } from "date-fns";
 import Header from "@/Components/Topography/Header";
-import Comment from "@/Components/Comment";
 import Button from "@/Components/Buttons/Button";
-import { FormEvent, useRef } from "react";
+import { FormEvent, useEffect, useRef } from "react";
 import Editor, {
   EditorMethods,
 } from "@/Components/MarkdownEditor/MarkdownEditor";
@@ -18,17 +16,20 @@ import hljs from "highlight.js";
 import "highlight.js/styles/atom-one-dark.min.css";
 import "remixicon/fonts/remixicon.css";
 import "../../../css/editor.css";
+import Comments from "@/Components/Comment/Comments";
 
 export default function Show({
   post,
+  categoryPosts,
   comments,
 }: {
   post: PostResource;
+  categoryPosts: PostResource[];
   comments: PaginatedResponse<CommentResource>;
 }) {
   const commentRef = useRef<HTMLDivElement>(null);
   const editorRef = useRef<EditorMethods>(null);
-  const form = useForm<Comment>();
+  const form = useForm<CommentType>();
 
   const { user } = usePage<PageProps>().props;
 
@@ -62,11 +63,13 @@ export default function Show({
     });
   };
 
-  document
-    .querySelectorAll('pre code:not(code[data-highlighted="yes"]) ')
-    .forEach((element) => {
-      hljs.highlightElement(element as HTMLElement);
-    });
+  useEffect(() => {
+    document
+      .querySelectorAll('pre code:not(code[data-highlighted="yes"]) ')
+      .forEach((element) => {
+        hljs.highlightElement(element as HTMLElement);
+      });
+  }, []);
 
   return (
     <BaseLayout>
@@ -76,6 +79,12 @@ export default function Show({
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 my-5">
           <Header className="font-bold text-3xl mb-5 md:col-span-3">
             {post.title}
+            <p className="text-xs font-bold text-accent tracking-widest uppercase mt-1.5">
+              Posted{" "}
+              {formatDistanceToNow(post.published_at ?? post.created_at, {
+                addSuffix: true,
+              })}
+            </p>
           </Header>
           <div className="md:col-span-2">
             <div className="mb-10">
@@ -134,6 +143,7 @@ export default function Show({
                     <></>
                   )}
                   <Button className="flex-1" onClick={goToComments}>
+                    <span className="sr-only">Comments</span>
                     {post.comments_count} <i className="ri-chat-1-line"></i>
                   </Button>
                 </div>
@@ -154,12 +164,31 @@ export default function Show({
                 </Link>
               </li>
             </ul>
+            <div className="my-8">
+              <p className="text-lg">
+                Other posts in{" "}
+                <strong>
+                  <Link
+                    className="text-secondary hover:text-accent"
+                    href={route("categories.show", post.category.id)}
+                  >
+                    {post.category.name}
+                  </Link>
+                </strong>
+              </p>
+              <ul>
+                {categoryPosts.map((relatedPost) => (
+                  <li key={relatedPost.id} className="ml-4 py-1.5">
+                    <Link href={post.routes.show} className="hover:text-accent">
+                      {relatedPost.title}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
 
-          <div className="comments my-5 md:col-span-2">
-            <h2 className="font-bold text-xl" ref={commentRef}>
-              Comments ({comments.data.length})
-            </h2>
+          <Comments comments={comments} ref={commentRef}>
             {user && (
               <div className="my-4">
                 <Editor
@@ -173,11 +202,7 @@ export default function Show({
                 </Button>
               </div>
             )}
-            {comments.data.map((comment) => (
-              <Comment key={comment.id} comment={comment} />
-            ))}
-            <Pagination meta={comments.meta} />
-          </div>
+          </Comments>
         </div>
       </div>
     </BaseLayout>

@@ -4,6 +4,7 @@ import { cn } from "@/Utilities/utils";
 import {
   Disclosure,
   DisclosureButton,
+  DisclosurePanel,
   Label,
   Listbox,
   ListboxButton,
@@ -48,10 +49,18 @@ const PostForm = ({
     event.preventDefault();
 
     if (post.id) {
-      return router.post(route("admin.posts.update", post.id), {
-        ...data,
-        _method: "patch",
-      });
+      return router.post(
+        route("admin.posts.update", post.id),
+        {
+          ...data,
+          _method: "patch",
+        },
+        {
+          onError: (error) => {
+            console.log(error);
+          },
+        },
+      );
     }
 
     return save(route("admin.posts.store"));
@@ -167,7 +176,11 @@ const PostForm = ({
               id="image"
               name="post_image"
               accept="image/*"
-              onChange={(e) => setData("post_image", e.target.files[0])}
+              onChange={(e) => {
+                if (e.target.files && e.target.files.length > 0) {
+                  return setData("post_image", e.target.files[0]);
+                }
+              }}
             />
           </label>
           {progress && (
@@ -210,7 +223,7 @@ const PostForm = ({
             leaveFrom="transform scale-100 opacity-100"
             leaveTo="transform scale-95 opacity-0"
           >
-            <Disclosure.Panel className="collapse-content relative">
+            <DisclosurePanel className="collapse-content relative">
               <div className="my-5">
                 <div className="form-control mb-3">
                   <label className="cursor-pointer label">
@@ -221,7 +234,7 @@ const PostForm = ({
                       checked={data.is_published}
                       onChange={(e) => {
                         if (!e.target.checked) {
-                          return setData((prevState: Partial<Post>) => ({
+                          return setData((prevState) => ({
                             ...prevState,
                             published_at: "",
                             unpublished_at: "",
@@ -295,7 +308,7 @@ const PostForm = ({
                   />
                 </label>
               </div>
-            </Disclosure.Panel>
+            </DisclosurePanel>
           </Transition>
         </Disclosure>
         {children}

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Comment;
 use App\Models\Like;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -20,7 +21,6 @@ class PostResource extends JsonResource
             'body' => $this->body,
             'html' => $this->html,
             'image' => $this->image,
-            'post_image' => $this->image ?? null,
             'published_at' => $this->published_at,
             'unpublished_at' => $this->unpublished_at,
             'is_published' => $this->is_published,
@@ -38,6 +38,7 @@ class PostResource extends JsonResource
             ],
             'can' => [
                 'like' => $request->user()?->can('create', [Like::class, $this->resource]),
+                'comment' => $request->user()?->can('create', [Comment::class, $this->resource]),
             ],
         ];
     }

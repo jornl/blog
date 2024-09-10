@@ -2,7 +2,6 @@
 
 use App\Models\Category;
 use App\Models\User;
-
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
 
@@ -23,5 +22,5 @@ it('requires authentication and administrator privileges', function () {
 it('renders the correct component', function () {
     actingAs(User::factory()->isAdmin()->create())
         ->get(route('admin.categories.edit', $this->category))
-        ->assertComponent('Categories/Edit');
+        ->assertComponent('Admin/Categories/Edit');
 });

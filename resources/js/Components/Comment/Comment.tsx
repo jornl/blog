@@ -1,8 +1,8 @@
-import { type Comment } from "@/types/comments";
+import { type CommentResource } from "@/types/comments";
 import { formatDistanceToNow } from "date-fns";
 
 export type CommentProps = {
-  comment: Comment;
+  comment: CommentResource;
 };
 
 const Comment = ({ comment }: CommentProps) => {

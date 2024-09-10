@@ -4,7 +4,6 @@ use App\Http\Resources\CommentResource;
 use App\Http\Resources\PostResource;
 use App\Models\Comment;
 use App\Models\Post;
-
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
 
@@ -43,6 +42,6 @@ it('passes comments to the view', function () {
 
     get($this->post->route())
         ->assertHasPaginatedResource('comments',
-            CommentResource::collection($comments->load(['user'])->reverse())
+            CommentResource::collection($comments->load(['user', 'replies'])->loadCount('replies')->reverse())
         );
 });
