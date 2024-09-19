@@ -32,7 +32,6 @@ Route::get('/about', function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
-    Route::resource('categories', CategoryController::class)->except(['index', 'show']);
 
     Route::resource('posts.comments', CommentController::class)
         ->only(['store', 'update'])
@@ -49,12 +48,12 @@ Route::middleware('auth')->group(function () {
         Route::resource('posts', AdminPostController::class);
         Route::resource('users', AdminUserController::class);
         Route::resource('categories', AdminCategoryController::class);
-        //        Route::get('/category/{category}', [AdminCategoryController::class, 'show'])->name('categories.show');
-
     });
 
 });
+
 Route::resource('categories', CategoryController::class)->only(['index', 'show']);
+
 Route::get('posts', [PostController::class, 'index'])->name('posts.index');
 Route::get('/posts/{post}/{slug}', [PostController::class, 'show'])->name('posts.show');
 

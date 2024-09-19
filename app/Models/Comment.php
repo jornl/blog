@@ -24,6 +24,8 @@ class Comment extends Model
         'html',
     ];
 
+    protected $with = ['user', 'replies'];
+
     /**
      * Get the user that owns the Comment
      */
@@ -46,5 +48,13 @@ class Comment extends Model
     public function replies(): HasMany
     {
         return $this->hasMany(Comment::class, 'reply_id');
+    }
+
+    /**
+     * Get the parent that owns the Comment
+     */
+    public function parent(): BelongsTo
+    {
+        return $this->belongsTo(Comment::class, 'reply_id');
     }
 }

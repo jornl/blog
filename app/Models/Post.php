@@ -66,7 +66,8 @@ class Post extends Model
      */
     public function comments(): HasMany
     {
-        return $this->hasMany(Comment::class)->with('user');
+        return $this->hasMany(Comment::class)
+            ->chaperone();
     }
 
     /**

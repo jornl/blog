@@ -1,13 +1,20 @@
 import { type CommentResource } from "@/types/comments";
+import { cn } from "@/Utilities/utils";
 import { formatDistanceToNow } from "date-fns";
 
-export type CommentProps = {
+export type CommentsProps = {
   comment: CommentResource;
+  className?: string;
 };
 
-const Comment = ({ comment }: CommentProps) => {
+const Comment = ({ comment, className }: CommentsProps) => {
   return (
-    <div className="card my-5 bg-base-200">
+    <div
+      className={cn(
+        "card my-5 bg-base-200 rounded-none md:rounded-xl",
+        className,
+      )}
+    >
       <div className="card-body">
         <div className="font-bold">
           <img
@@ -23,7 +30,7 @@ const Comment = ({ comment }: CommentProps) => {
         />
 
         <p className="text-xs text-accent">
-          {formatDistanceToNow(comment.created_at, {
+          {formatDistanceToNow(new Date(comment.created_at), {
             addSuffix: true,
           })}
         </p>

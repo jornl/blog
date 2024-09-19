@@ -41,13 +41,12 @@ class PostController extends Controller
 
         $comments = $post
             ->comments()
-            ->with('replies', 'replies.user')
             ->withCount('replies')
             ->latest()
             ->latest('id')
             ->paginate(10);
 
-        $categoryPosts = $post->category
+        $relatedPosts = $post->category
             ->posts()
             ->where('id', '!=', $post->id)
             ->published()
@@ -56,9 +55,9 @@ class PostController extends Controller
             ->get();
 
         return inertia('Posts/Show', [
-            'post' => PostResource::make($post->load(['user', 'category'])->loadCount(['likes', 'comments'])),
+            'post' => PostResource::make($post->load('user')->loadCount(['likes', 'comments'])),
             'comments' => CommentResource::collection($comments),
-            'categoryPosts' => PostResource::collection($categoryPosts),
+            'relatedPosts' => PostResource::collection($relatedPosts),
         ]);
     }
 }
