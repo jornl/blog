@@ -3,9 +3,10 @@
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
-
+use Illuminate\Http\UploadedFile;
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\post;
+use function PHPUnit\Framework\assertEquals;
 
 beforeEach(function () {
     $this->validData = [
@@ -62,3 +63,16 @@ it('validates the data', function (array $badValues, array|string $errors) {
     [['category_id' => 'not-integer'], 'category_id'],
     [['category_id' => 999], 'category_id'],
 ]);
+
+it('can store a post with an image', function () {
+    Storage::fake('images');
+    $image = UploadedFile::fake()->image('image.webp');
+
+    actingAs(User::factory()->isAdmin()->create())
+        ->post(route('admin.posts.store'), [...$this->validData, 'post_image' => $image])
+        ->assertRedirect();
+
+    Storage::disk('images')->assertExists('images/'.$image->hashName());
+
+    assertEquals(Post::latest()->first()->image, 'images/'.$image->hashName());
+});

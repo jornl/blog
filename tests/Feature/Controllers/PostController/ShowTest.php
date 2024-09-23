@@ -37,7 +37,6 @@ it('can view an unpublished post if the user is the author', function () {
 });
 
 it('passes comments to the view', function () {
-    $this->withoutExceptionHandling();
     $comments = Comment::factory(2)->for($this->post)->create();
 
     get($this->post->route())

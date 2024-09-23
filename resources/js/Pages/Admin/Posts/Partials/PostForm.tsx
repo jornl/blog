@@ -1,4 +1,4 @@
-import { FormEvent, Fragment, ReactNode, useState } from "react";
+import { FormEvent, Fragment, ReactNode, useEffect, useState } from "react";
 import FormInput from "@/Components/Form/FormInput";
 import { cn } from "@/Utilities/utils";
 import {
@@ -35,6 +35,7 @@ const PostForm = ({
   const [selectedCategory, setSelectedCategory] = useState<
     Category | undefined
   >(postCategory ?? undefined);
+  const [preview, setPreview] = useState<string | undefined>(undefined);
 
   const {
     post: save,
@@ -44,6 +45,18 @@ const PostForm = ({
     reset,
     progress,
   } = useForm<Post>(post);
+
+  useEffect(() => {
+    if (data.post_image) {
+      setPreview(URL.createObjectURL(data.post_image));
+    }
+
+    return () => {
+      if (preview) {
+        URL.revokeObjectURL(preview);
+      }
+    };
+  }, [data.post_image]);
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
@@ -158,11 +171,11 @@ const PostForm = ({
         </div>
 
         <div className="my-10">
-          {post.image && (
+          {(preview || post.image) && (
             <figure className="mb-5">
               <img
                 className="w-full max-h-96 object-cover rounded-xl"
-                src={`/${post.image}`}
+                src={`${preview ?? `/` + post.image}`}
                 alt={`/${post.title}'s header image`}
               />
             </figure>

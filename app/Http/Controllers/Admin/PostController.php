@@ -67,7 +67,7 @@ class PostController extends Controller
         unset($attributes['post_image']);
 
         if ($request->file('post_image')) {
-            $attributes['image'] = $request->file('post_image')->store('images');
+            $attributes['image'] = $request->file('post_image')->store('images', ['disk' => 'images']);
         }
 
         $post = Post::create([
@@ -108,7 +108,7 @@ class PostController extends Controller
         unset($attributes['post_image']);
 
         if ($request->file('post_image')) {
-            $attributes['image'] = $request->file('post_image')->store('images');
+            $attributes['image'] = $request->file('post_image')->store('images', ['disk' => 'images']);
         }
 
         $post->update($attributes);

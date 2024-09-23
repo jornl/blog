@@ -2,9 +2,11 @@
 
 use App\Models\Post;
 use App\Models\User;
-
+use Illuminate\Http\UploadedFile;
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\patch;
+use function PHPUnit\Framework\assertEquals;
+use function PHPUnit\Framework\assertNotEquals;
 
 beforeEach(function () {
     $this->post = Post::factory()->create(['is_published' => true]);
@@ -53,3 +55,19 @@ it('validates the data', function (array $badValues, array|string $errors) {
     [['body' => 1.5], 'body'],
     [['body' => false], 'body'],
 ]);
+
+it('can update the posts image', function () {
+    Storage::fake('images');
+    $newFile = UploadedFile::fake()->image('new-image.jpg');
+
+    actingAs(User::factory()->isAdmin()->create());
+
+    assertNotEquals($this->post->image, 'new-image.webp');
+
+    patch(route('admin.posts.update', $this->post), [
+        'post_image' => $newFile,
+    ]);
+
+    Storage::disk('images')->assertExists('images/'.$newFile->hashName());
+    assertEquals($this->post->fresh()->image, 'images/'.$newFile->hashName());
+});
