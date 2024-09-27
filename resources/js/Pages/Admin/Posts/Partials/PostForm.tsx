@@ -175,7 +175,7 @@ const PostForm = ({
             <figure className="mb-5">
               <img
                 className="w-full max-h-96 object-cover rounded-xl"
-                src={`${preview ?? `/` + post.image}`}
+                src={`${preview ?? post.image}`}
                 alt={`/${post.title}'s header image`}
               />
             </figure>

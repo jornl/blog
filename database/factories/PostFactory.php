@@ -20,11 +20,11 @@ class PostFactory extends Factory
     public function definition(): array
     {
         $images = [
-            'images/ai-generated-1.webp',
-            'images/ai-generated-2.webp',
-            'images/ai-generated-3.webp',
-            'images/ai-generated-4.webp',
-            'images/ai-generated-5.webp',
+            '/images/ai-generated-1.webp',
+            '/images/ai-generated-2.webp',
+            '/images/ai-generated-3.webp',
+            '/images/ai-generated-4.webp',
+            '/images/ai-generated-5.webp',
         ];
 
         return [

@@ -58,16 +58,16 @@ it('validates the data', function (array $badValues, array|string $errors) {
 
 it('can update the posts image', function () {
     Storage::fake('images');
-    $newFile = UploadedFile::fake()->image('new-image.jpg');
+    $newFile = UploadedFile::fake()->image('new-image.webp');
 
     actingAs(User::factory()->isAdmin()->create());
 
-    assertNotEquals($this->post->image, 'new-image.webp');
+    assertNotEquals($this->post->image, 'images/'.$newFile->hashName());
 
     patch(route('admin.posts.update', $this->post), [
         'post_image' => $newFile,
     ]);
 
-    Storage::disk('images')->assertExists('images/'.$newFile->hashName());
-    assertEquals($this->post->fresh()->image, 'images/'.$newFile->hashName());
+    Storage::disk('images')->assertExists($newFile->hashName());
+    assertEquals($this->post->fresh()->image, $newFile->hashName());
 });

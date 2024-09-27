@@ -92,7 +92,7 @@ export default function Show({
                 <figure className="mb-5">
                   <img
                     className="w-full max-h-96 object-cover md:rounded-xl"
-                    src={`/${post.image}`}
+                    src={`${post.image}`}
                     alt={`${post.title} image`}
                   />
                 </figure>
@@ -108,16 +108,26 @@ export default function Show({
           </div>
 
           <div className="card bg-base-200 p-5 my-5 md:my-0 self-start md:sticky md:top-10">
-            <ul className="py-2">
-              <li className="mb-5">
+            <div className="w-full text-center">
+              <figure className="w-20 h-20 rounded-full overflow-hidden mx-auto">
+                <img
+                  src={post.user?.gravatar}
+                  alt={post.user?.name}
+                  className="w-full h-full object-cover"
+                />
+              </figure>
+              <p className="text-lg font-bold mt-5">
                 <Link
                   className="text-base-content hover:link-accent"
                   href={route("about")}
+                  title="About the author"
                 >
-                  About the author
+                  {post.user?.name}
                 </Link>
-              </li>
+              </p>
+            </div>
 
+            <ul className="py-2">
               <li>
                 <div className="text-neutral-content tracking-wide mb-5 flex gap-5">
                   {user ? (
@@ -168,7 +178,10 @@ export default function Show({
               <ul>
                 {relatedPosts.map((relatedPost) => (
                   <li key={relatedPost.id} className="ml-1 font-sm py-1.5">
-                    <Link href={post.routes.show} className="hover:text-accent">
+                    <Link
+                      href={relatedPost.routes.show}
+                      className="hover:text-accent"
+                    >
                       {relatedPost.title}
                     </Link>
                   </li>

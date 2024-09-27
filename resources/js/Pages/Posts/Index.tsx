@@ -28,7 +28,7 @@ export default function Index({
             >
               {post.image && (
                 <figure className="max-h-64">
-                  <img src={`/${post.image}`} alt={`${post.title} image`} />
+                  <img src={`${post.image}`} alt={`${post.title} image`} />
                 </figure>
               )}
               <div className="card-body">

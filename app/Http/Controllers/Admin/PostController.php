@@ -55,7 +55,7 @@ class PostController extends Controller
             'title' => ['required', 'string', 'max:255', 'min:5'],
             'excerpt' => ['nullable', 'string'],
             'body' => ['required', 'string', 'min:50'],
-            'post_image' => ['nullable', 'image'],
+            'post_image' => ['sometimes', 'image'],
             'is_published' => ['sometimes', 'required', 'boolean'],
             'published_at' => ['nullable', 'date'],
             'unpublished_at' => ['nullable', 'date'],
@@ -67,7 +67,7 @@ class PostController extends Controller
         unset($attributes['post_image']);
 
         if ($request->file('post_image')) {
-            $attributes['image'] = $request->file('post_image')->store('images', ['disk' => 'images']);
+            $attributes['image'] = url('images', $request->file('post_image')->store('','images'));
         }
 
         $post = Post::create([
@@ -98,7 +98,7 @@ class PostController extends Controller
             'title' => ['sometimes', 'required', 'string', 'max:255', 'min:5'],
             'excerpt' => ['nullable', 'string'],
             'body' => ['sometimes', 'required', 'string'],
-            'post_image' => ['sometimes', 'image'],
+            'post_image' => ['sometimes', 'required', 'image'],
             'is_published' => ['sometimes', 'required', 'boolean'],
             'published_at' => ['nullable', 'date'],
             'unpublished_at' => ['nullable', 'date'],
@@ -108,7 +108,7 @@ class PostController extends Controller
         unset($attributes['post_image']);
 
         if ($request->file('post_image')) {
-            $attributes['image'] = $request->file('post_image')->store('images', ['disk' => 'images']);
+            $attributes['image'] = url('images', $request->file('post_image')->store('', 'images'));
         }
 
         $post->update($attributes);

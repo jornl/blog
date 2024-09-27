@@ -48,6 +48,7 @@ class PostController extends Controller
 
         $relatedPosts = $post->category
             ->posts()
+            ->withCount(['likes', 'comments'])
             ->where('id', '!=', $post->id)
             ->published()
             ->trending()
@@ -55,7 +56,7 @@ class PostController extends Controller
             ->get();
 
         return inertia('Posts/Show', [
-            'post' => PostResource::make($post->load('user')->loadCount(['likes', 'comments'])),
+            'post' => PostResource::make($post->load(['user'])->loadCount(['likes', 'comments']))->withLikePermissions(),
             'comments' => CommentResource::collection($comments),
             'relatedPosts' => PostResource::collection($relatedPosts),
         ]);

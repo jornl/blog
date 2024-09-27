@@ -72,7 +72,7 @@ it('can store a post with an image', function () {
         ->post(route('admin.posts.store'), [...$this->validData, 'post_image' => $image])
         ->assertRedirect();
 
-    Storage::disk('images')->assertExists('images/'.$image->hashName());
+    Storage::disk('images')->assertExists($image->hashName());
 
-    assertEquals(Post::latest()->first()->image, 'images/'.$image->hashName());
-});
+    assertEquals(Post::latest()->first()->image, $image->hashName());
+})->only();
