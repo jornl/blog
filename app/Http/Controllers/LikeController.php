@@ -15,10 +15,12 @@ class LikeController extends Controller
      */
     public function store(Request $request, string $type, int $id): RedirectResponse
     {
+        /** @var class-string<Model>|null $likeable */
         $likeable = $this->likeable($type, $id);
         $this->authorize('create', [Like::class, $likeable]);
 
-        $likeable->likes()
+        $likeable
+            ->likes()
             ->create([
                 'user_id' => $request->user()->id,
             ]);
@@ -31,10 +33,12 @@ class LikeController extends Controller
      */
     public function destroy(Request $request, string $type, int $id): RedirectResponse
     {
+        /** @var class-string<Model>|null $likeable */
         $likeable = $this->likeable($type, $id);
         $this->authorize('delete', [Like::class, $likeable]);
 
-        $likeable->likes()
+        $likeable
+            ->likes()
             ->whereBelongsTo($request->user())
             ->delete();
 
@@ -45,6 +49,10 @@ class LikeController extends Controller
     {
         /** @var class-string<Model>|null $modelName */
         $modelName = Relation::getMorphedModel($type);
+
+        if ($modelName === null) {
+            abort(404);
+        }
 
         return $modelName::findOrFail($id);
     }

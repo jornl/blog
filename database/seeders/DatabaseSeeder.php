@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Category;
 use App\Models\Comment;
+use App\Models\Like;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -36,6 +37,12 @@ class DatabaseSeeder extends Seeder
             ->recycle($posts)
             ->has(Comment::factory()->recycle($comments)->for($author), 'replies')
             ->create(['user_id' => $author->id]);
+
+        Like::factory(200)
+            ->recycle($posts, $users)
+            ->create();
+
+        Like::factory(30)->recycle($posts, $author)->create();
 
     }
 }

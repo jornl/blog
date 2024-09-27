@@ -2,13 +2,15 @@
 
 namespace App\Http\Resources;
 
-use App\Models\Comment;
+use App\Http\Resources\Concerns\WithLikePermissions;
 use App\Models\Like;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class PostResource extends JsonResource
 {
+    use WithLikePermissions;
+
     /**
      * Transform the resource into an array.
      */
@@ -36,9 +38,8 @@ class PostResource extends JsonResource
                 'show' => $this->route(),
                 'edit' => $this->when($request->user()?->isAdmin(), $this->route('admin.posts.edit', false)),
             ],
-            'can' => [
-                'like' => $request->user()?->can('create', [Like::class, $this->resource]),
-                'comment' => $request->user()?->can('create', [Comment::class, $this->resource]),
+            'can' =>  [
+                'like' => $this->when($this->withLikePermissions, fn() => $request->user()?->can('create', [Like::class, $this->resource])),
             ],
         ];
     }
