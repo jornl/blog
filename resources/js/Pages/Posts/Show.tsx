@@ -87,18 +87,20 @@ export default function Show({
             </p>
           </Header>
           <div className="md:col-span-2">
-            <div className="mb-10">
-              {post.image && (
-                <figure className="mb-5">
-                  <img
-                    className="w-full max-h-96 object-cover md:rounded-xl"
-                    src={`${post.image}`}
-                    alt={`${post.title} image`}
-                  />
-                </figure>
-              )}
-              <p className="text-lg">{post.excerpt}</p>
-            </div>
+            {(post.image || post.excerpt) && (
+              <div className="mb-10">
+                {post.image && (
+                  <figure className="mb-5">
+                    <img
+                      className="w-full max-h-96 object-cover md:rounded-xl"
+                      src={`${post.image}`}
+                      alt={`${post.title} image`}
+                    />
+                  </figure>
+                )}
+                <p className="text-lg">{post.excerpt}</p>
+              </div>
+            )}
             <div className="py-8 px-12 md:rounded-xl lg:container-sm lg:mx-auto bg-base-200">
               <div
                 className="prose md:w-[80ch] my-5 text-base-content md:mx-auto"

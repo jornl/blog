@@ -10,6 +10,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class CommentResource extends JsonResource
 {
     use WithLikePermissions;
+
     /**
      * Transform the resource into an array.
      *
@@ -31,7 +32,7 @@ class CommentResource extends JsonResource
             'updated_at' => $this->updated_at,
             'can' => [
                 'like' => $this->when($this->withLikePermissions, fn () => $request->user()?->can('create', [Like::class, $this->resource])),
-            ]
+            ],
         ];
     }
 }

@@ -2,8 +2,8 @@
 
 namespace App\Http\Resources\Concerns;
 
-trait WithLikePermissions {
-    
+trait WithLikePermissions
+{
     /**
      * Whether to include like permissions in the resource.
      */

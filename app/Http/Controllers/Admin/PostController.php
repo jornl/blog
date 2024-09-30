@@ -67,7 +67,7 @@ class PostController extends Controller
         unset($attributes['post_image']);
 
         if ($request->file('post_image')) {
-            $attributes['image'] = url('images', $request->file('post_image')->store('','images'));
+            $attributes['image'] = url('images', $request->file('post_image')->store('', 'images'));
         }
 
         $post = Post::create([

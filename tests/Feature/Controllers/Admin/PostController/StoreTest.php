@@ -4,6 +4,7 @@ use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\UploadedFile;
+
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\post;
 use function PHPUnit\Framework\assertEquals;

@@ -3,7 +3,17 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "tsc && vite build"
+        "build": "tsc && vite build",
+        "prepare": "husky",
+        "pre-commit": "lint-staged"
+    },
+    "lint-staged": {
+        "*.php": [
+            "./vendor/bin/sail pint"
+        ],
+        "*.{js,ts,jsx,tsx}": [
+            "./vendor/bin/sail npx prettier --write --list-different"
+        ]
     },
     "devDependencies": {
         "@headlessui/react": "^2.1.2",
@@ -16,7 +26,9 @@
         "autoprefixer": "^10.4.19",
         "axios": "^1.7.2",
         "daisyui": "^4.12.10",
+        "husky": "^9.1.6",
         "laravel-vite-plugin": "^1.0.5",
+        "lint-staged": "^15.2.10",
         "postcss": "^8.4.39",
         "react": "^18.3.1",
         "react-dom": "^18.3.1",
