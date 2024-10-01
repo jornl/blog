@@ -13,3 +13,16 @@
 .collapse-content {
     @apply p-4 visible col-start-1 row-start-2 min-h-auto;
 }
+
+.posts .card:hover::after, .posts .card:hover::before {
+    @apply absolute w-full h-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gradient-to-br from-accent via-primary to-accent z-[-1];
+    --padding: 1px;
+    content: '';
+    box-sizing: initial;
+    padding: var(--padding);
+    border-radius: calc(var(--rounded-box, 1rem) + var(--padding));
+}
+
+.posts .card:hover::before {
+    @apply filter blur-sm opacity-50;
+}

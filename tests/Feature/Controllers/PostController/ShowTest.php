@@ -19,7 +19,7 @@ it('returns the correct component', function () {
 
 it('passes a post to the view', function () {
     get($this->post->route())
-        ->assertHasResource('post', PostResource::make($this->post->load(['user', 'category'])->loadCount(['likes', 'comments'])));
+        ->assertHasResource('post', PostResource::make($this->post->load(['user', 'category'])->loadCount(['likes', 'comments']))->withLikePermissions());
 });
 
 it('cannot view an unpublished post', function () {

@@ -75,5 +75,5 @@ it('can store a post with an image', function () {
 
     Storage::disk('images')->assertExists($image->hashName());
 
-    assertEquals(Post::latest()->first()->image, $image->hashName());
-})->only();
+    assertEquals(Post::latest()->first()->image, url('images', $image->hashName()));
+});

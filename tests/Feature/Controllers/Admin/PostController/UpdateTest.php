@@ -70,5 +70,5 @@ it('can update the posts image', function () {
     ]);
 
     Storage::disk('images')->assertExists($newFile->hashName());
-    assertEquals($this->post->fresh()->image, $newFile->hashName());
+    assertEquals($this->post->fresh()->image, url('images', $newFile->hashName()));
 });
