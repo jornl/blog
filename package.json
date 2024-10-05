@@ -9,10 +9,10 @@
     },
     "lint-staged": {
         "*.php": [
-            "./vendor/bin/sail pint"
+            "./vendor/bin/pint"
         ],
         "*.{js,ts,jsx,tsx}": [
-            "./vendor/bin/sail npx prettier --write --list-different"
+            "npx prettier --write --list-different"
         ]
     },
     "devDependencies": {

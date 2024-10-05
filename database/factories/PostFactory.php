@@ -30,10 +30,11 @@ class PostFactory extends Factory
         return [
             'title' => str(fake()->sentence)->beforeLast('.')->title(),
             'body' => Collection::times(3, fn () => fake()->realText(1000))->join(PHP_EOL.PHP_EOL),
+            'excerpt' => fake()->optional(0.8, null)->realText(300),
             'is_published' => $published = fake()->boolean(80),
             'published_at' => $published ? now() : null,
             'is_featured' => fake()->boolean(10),
-            'image' => fake()->optional(0.8, null)->randomElement($images),
+            'image' => fake()->optional(0.8)->randomElement($images),
             'user_id' => User::factory(),
             'category_id' => Category::factory(),
         ];

@@ -31,4 +31,13 @@ class CommentFactory extends Factory
     {
         return $this->sequence(...(new CommentFixtures)->getFixtures());
     }
+
+    public function sometimesWithFixture(int $chance = 50): static
+    {
+        return $this->state(function (array $attributes) use ($chance) {
+            return fake()->boolean($chance)
+                ? (new CommentFixtures)->getFixtures()->random()
+                : [];
+        });
+    }
 }
