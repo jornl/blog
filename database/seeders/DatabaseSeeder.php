@@ -34,17 +34,10 @@ class DatabaseSeeder extends Seeder
             ->has(Comment::factory(2)->sometimesWithFixture()->for($author))
             ->create(['user_id' => $author->id]);
 
-        Comment::factory(50)
-            ->recycle($posts)
-            ->sometimesWithFixture()
-            ->has(Comment::factory()->sometimesWithFixture()->recycle($comments)->for($author), 'replies')
-            ->create(['user_id' => $author->id]);
-
         Like::factory(200)
             ->recycle($posts, $users)
             ->create();
 
         Like::factory(30)->recycle($posts, $author)->create();
-
     }
 }

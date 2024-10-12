@@ -97,8 +97,8 @@ const MarkdownEditor = forwardRef(
       },
       [content, error],
     );
+
     if (!editor) return null;
-    editorRef.current = editor;
 
     const setLink = useCallback(() => {
       const previousUrl = editor.getAttributes("link").href;

@@ -47,7 +47,8 @@ class Comment extends Model
      */
     public function replies(): HasMany
     {
-        return $this->hasMany(Comment::class, 'reply_id');
+        return $this->hasMany(Comment::class, 'reply_id')
+            ->withCount('likes');
     }
 
     /**

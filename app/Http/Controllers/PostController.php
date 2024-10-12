@@ -41,14 +41,17 @@ class PostController extends Controller
 
         $comments = $post
             ->comments()
-            ->withCount('replies')
+            ->with(['replies' => function ($query) {
+                $query->withCount('likes', 'replies');
+            }])
+            ->withCount('replies', 'likes')
             ->latest()
             ->latest('id')
             ->paginate(10);
 
         $relatedPosts = $post->category
             ->posts()
-            ->withCount(['likes', 'comments'])
+            ->withCount('comments', 'likes')
             ->where('id', '!=', $post->id)
             ->published()
             ->trending()
