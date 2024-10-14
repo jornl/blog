@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Category;
 use App\Models\User;
 
 use function Pest\Laravel\actingAs;
@@ -31,5 +30,5 @@ it('can store a category', function () {
 it('redirects to the category page', function () {
     actingAs(User::factory()->create(['is_admin' => true]))
         ->post(route('admin.categories.store'), $this->validData)
-        ->assertRedirect(route('categories.show', Category::latest('id')->first()));
+        ->assertRedirect(route('admin.categories.index'));
 });
