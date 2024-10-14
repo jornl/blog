@@ -44,7 +44,7 @@ class CategoryPolicy
      */
     public function delete(User $user, Category $category): bool
     {
-        //
+        return $user->isAdmin();
     }
 
     /**

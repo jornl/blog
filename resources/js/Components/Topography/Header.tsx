@@ -12,7 +12,7 @@ const Header: OverridableComponent<HeaderProps, HTMLHeadingElement> =
     const Component = as as ElementType;
 
     return (
-      <Component className={cn("", className)} ref={ref} {...props}>
+      <Component className={cn("text-2xl", className)} ref={ref} {...props}>
         {children}
       </Component>
     );

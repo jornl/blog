@@ -47,7 +47,7 @@ class CategoryController extends Controller
             'name' => ['required', 'string', 'max:255'],
         ]));
 
-        return to_route('categories.show', $category);
+        return to_route('admin.categories.index');
     }
 
     /**
@@ -79,6 +79,8 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+
+        return to_route('admin.categories.index');
     }
 }
