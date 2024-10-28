@@ -77,7 +77,7 @@ export default function Show({
       <div className="container my-5 md:px-4">
         <Breadcrumbs />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 my-5">
-          <Header className="font-bold text-3xl mb-5 md:col-span-3 px-4">
+          <Header className="font-bold text-3xl mb-5 md:col-span-3">
             {post.title}
             <p className="text-xs font-bold text-accent tracking-widest uppercase mt-1.5">
               Posted{" "}
