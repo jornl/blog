@@ -45,7 +45,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::prefix('admin')->name('admin.')->group(function () {
-        Route::resource('posts', AdminPostController::class);
+        Route::resource('posts', AdminPostController::class)->except(['show']);
+        Route::get('posts/{post}/{slug}', [AdminPostController::class, 'show'])->name('posts.show');
         Route::resource('users', AdminUserController::class);
         Route::resource('categories', AdminCategoryController::class);
     });

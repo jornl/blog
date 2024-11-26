@@ -77,7 +77,13 @@ export default function Index({ posts }: IndexPageType) {
                   <td>{post.comments_count}</td>
 
                   <td className="text-right">
-                    <Link href={post.routes.show}>
+                    <Link
+                      href={
+                        post.published_at
+                          ? post.routes.show
+                          : post.routes.preview
+                      }
+                    >
                       <button className="btn btn-ghost btn-sm hover:bg-primary hover:text-primary-content mr-3">
                         <i className="ri-eye-line"></i>
                       </button>

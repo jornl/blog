@@ -4,6 +4,7 @@ import { CommentResource } from "@/types/comments";
 import { PaginatedResponse } from "@/types";
 import Pagination from "@/Components/Pagination";
 import Comments from "@/Components/Comment/Comments";
+import Header from "@/Components/Topography/Header";
 
 export type CommentsType = {
   children?: ReactNode;
@@ -17,9 +18,9 @@ const CommentSection = forwardRef(
 
     return (
       <div className="comments my-5 md:col-span-2">
-        <h2 className="font-bold text-xl px-4" ref={commentRef}>
+        <Header className="font-bold text-xl" ref={commentRef}>
           Comments ({comments.data.length})
-        </h2>
+        </Header>
         {children}
         <Comments comments={comments.data} />
 

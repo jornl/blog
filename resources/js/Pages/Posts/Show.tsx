@@ -18,15 +18,19 @@ import "remixicon/fonts/remixicon.css";
 import "../../../css/editor.css";
 import CommentSection from "@/Components/Comment/CommentSection";
 
+type ShowPageType = {
+  post: PostResource;
+  relatedPosts: PostResource[];
+  comments: PaginatedResponse<CommentResource>;
+  preview?: boolean;
+};
+
 export default function Show({
   post,
   relatedPosts,
   comments,
-}: {
-  post: PostResource;
-  relatedPosts: PostResource[];
-  comments: PaginatedResponse<CommentResource>;
-}) {
+  preview,
+}: ShowPageType) {
   const commentRef = useRef<HTMLDivElement>(null);
   const editorRef = useRef<EditorMethods>(null);
   const form = useForm<CommentType>();
@@ -77,7 +81,7 @@ export default function Show({
       <div className="container my-5 md:px-4">
         <Breadcrumbs />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 my-5">
-          <Header className="font-bold text-3xl mb-5 md:col-span-3 px-4">
+          <Header className="font-bold text-3xl mb-5 md:col-span-3">
             {post.title}
             <p className="text-xs font-bold text-accent tracking-widest uppercase mt-1.5">
               Posted{" "}
@@ -132,7 +136,7 @@ export default function Show({
             <ul className="py-2">
               <li>
                 <div className="text-neutral-content tracking-wide mb-5 flex gap-5">
-                  {user ? (
+                  {user && preview !== true ? (
                     <>
                       {post.can.like ? (
                         <Button className="flex-1" onClick={like}>
@@ -157,21 +161,12 @@ export default function Show({
                   </Button>
                 </div>
               </li>
-              <li>
-                <span className="font-semibold">Category:</span>{" "}
-                <Link
-                  className="link-accent"
-                  href={route("categories.show", post.category?.slug)}
-                >
-                  {post.category?.name}
-                </Link>
-              </li>
             </ul>
             <div className="my-8">
               <p className="text-lg">
                 <strong>Other posts in </strong>
                 <Link
-                  className="font-bold hover:font-normal text-secondary hover:text-accent "
+                  className="font-bold text-secondary hover:text-accent"
                   href={route("categories.show", post.category?.slug)}
                 >
                   {post.category.name}
@@ -179,7 +174,7 @@ export default function Show({
               </p>
               <ul>
                 {relatedPosts.map((relatedPost) => (
-                  <li key={relatedPost.id} className="ml-1 font-sm py-1.5">
+                  <li key={relatedPost.id} className="font-sm py-1.5">
                     <Link
                       href={relatedPost.routes.show}
                       className="hover:text-accent"
@@ -191,22 +186,23 @@ export default function Show({
               </ul>
             </div>
           </div>
-
-          <CommentSection comments={comments} ref={commentRef}>
-            {user && (
-              <div className="my-4">
-                <Editor
-                  onChange={(e) => form.setData("body", e)}
-                  className="min-h-[10rem] w-full"
-                  placeholder="Write your comment here"
-                  ref={editorRef}
-                />
-                <Button className="btn-accent btn-sm my-2" onClick={comment}>
-                  Post
-                </Button>
-              </div>
-            )}
-          </CommentSection>
+          {preview !== true && (
+            <CommentSection comments={comments} ref={commentRef}>
+              {user && (
+                <div className="my-4 px-4 md:px-0">
+                  <Editor
+                    onChange={(e) => form.setData("body", e)}
+                    className="min-h-[10rem] w-full"
+                    placeholder="Write your comment here"
+                    ref={editorRef}
+                  />
+                  <Button className="btn-accent btn-sm my-2" onClick={comment}>
+                    Post
+                  </Button>
+                </div>
+              )}
+            </CommentSection>
+          )}
         </div>
       </div>
     </BaseLayout>

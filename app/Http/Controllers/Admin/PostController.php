@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CategoryResource;
+use App\Http\Resources\CommentResource;
 use App\Http\Resources\PostResource;
 use App\Http\Sorters\PostSorter;
 use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
@@ -32,6 +34,42 @@ class PostController extends Controller
 
         return inertia('Admin/Posts/Index', [
             'posts' => PostResource::collection($posts),
+        ]);
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Post $post, Request $request)
+    {
+        if (! Str::endsWith($post->route('admin.posts.show'), $request->path())) {
+            return redirect($post->route($request->query()), status: 301);
+        }
+
+        $comments = $post
+            ->comments()
+            ->with(['replies' => function ($query) {
+                $query->withCount('likes', 'replies');
+            }])
+            ->withCount('likes', 'replies')
+            ->latest()
+            ->latest('id')
+            ->paginate(10);
+
+        $relatedPosts = $post->category
+            ->posts()
+            ->withCount('comments', 'likes')
+            ->where('id', '!=', $post->id)
+            ->published()
+            ->trending()
+            ->limit(3)
+            ->get();
+
+        return inertia('Posts/Show', [
+            'post' => PostResource::make($post->load(['user'])->loadCount(['likes', 'comments']))->withLikePermissions(),
+            'comments' => CommentResource::collection($comments),
+            'relatedPosts' => PostResource::collection($relatedPosts),
+            'preview' => true,
         ]);
     }
 

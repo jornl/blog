@@ -9,7 +9,7 @@ type PaginationType = {
 
 export default function Pagination({ meta, className = "" }: PaginationType) {
   return (
-    <div className="my-5 flex justify-center md:justify-between md:items-center">
+    <div className="my-5 flex justify-end md:justify-between md:items-center px-4 md:px-0">
       <div className="hidden md:block">
         <p>
           Showing {meta.from} to {meta.to} of {meta.total} results

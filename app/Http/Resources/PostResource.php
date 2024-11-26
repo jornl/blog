@@ -37,6 +37,7 @@ class PostResource extends JsonResource
             'routes' => [
                 'show' => $this->route(),
                 'edit' => $this->when($request->user()?->isAdmin(), $this->route('admin.posts.edit', false)),
+                'preview' => $this->when($request->user()?->isAdmin(), $this->route('admin.posts.show')),
             ],
             'can' => [
                 'like' => $this->when($this->withLikePermissions, fn () => $request->user()?->can('create', [Like::class, $this->resource])),

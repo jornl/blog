@@ -1,6 +1,7 @@
 import { Link, usePage } from "@inertiajs/react";
 import { PageProps } from "@/types";
 import NavLink from "@/Components/Links/NavLink";
+import { cn } from "@/Utilities/utils";
 
 export default function Navigation() {
   const user = usePage<PageProps>().props.user;
@@ -69,14 +70,17 @@ export default function Navigation() {
         <a className="btn btn-ghost text-2xl">JL</a>
       </div>
       <div className="navbar-center hidden md:flex">
-        <ul className="menu p-0 menu-horizontal px-1 space-x-2">
+        <ul className="menu px-4 space-x-2 menu-horizontal">
           {links.map(
             (link) =>
               link.when() && (
                 <li key={link.name}>
-                  <NavLink href={link.url} active={route().current(link.route)}>
+                  <Link
+                    href={link.url}
+                    className={cn({ active: route().current(link.route) })}
+                  >
                     {link.name}
-                  </NavLink>
+                  </Link>
                 </li>
               ),
           )}
