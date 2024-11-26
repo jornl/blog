@@ -18,7 +18,7 @@ const CommentSection = forwardRef(
 
     return (
       <div className="comments my-5 md:col-span-2">
-        <Header className="font-bold text-xl" ref={commentRef}>
+        <Header as="h2" className="font-bold text-xl" ref={commentRef}>
           Comments ({comments.data.length})
         </Header>
         {children}

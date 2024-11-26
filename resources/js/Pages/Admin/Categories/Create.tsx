@@ -4,14 +4,14 @@ import { Head, useForm } from "@inertiajs/react";
 import Header from "@/Components/Topography/Header";
 import FormInput from "@/Components/Form/FormInput";
 import Button from "@/Components/Buttons/Button";
-import { Category } from "@/types/categories";
+import { FormEvent } from "react";
 
 export default function Create() {
-  const { data, setData, post } = useForm<Category>({
+  const { data, setData, post } = useForm({
     name: "",
   });
 
-  const createCategory = (e) => {
+  const createCategory = (e: FormEvent) => {
     e.preventDefault();
     post(route("admin.categories.store"));
   };

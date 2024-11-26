@@ -121,6 +121,12 @@ export default function Navigation() {
             <NavLink href={route("login")} active={route().current("login")}>
               Login
             </NavLink>
+            <NavLink
+              href={route("register")}
+              active={route().current("register")}
+            >
+              Register
+            </NavLink>
           </>
         )}
       </div>

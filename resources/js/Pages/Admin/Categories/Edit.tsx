@@ -5,17 +5,18 @@ import FormInput from "@/Components/Form/FormInput";
 import Button from "@/Components/Buttons/Button";
 import { Category } from "@/types/categories";
 import { useForm } from "@inertiajs/react";
+import { FormEvent } from "react";
 
 type EditType = {
   category: Category;
 };
 
 export default function Edit({ category }: EditType) {
-  const { data, setData, put } = useForm<Category>({
+  const { data, setData, put } = useForm({
     name: category.name,
   });
 
-  const updateCategory = (e) => {
+  const updateCategory = (e: FormEvent) => {
     e.preventDefault();
     put(route("admin.categories.update", category.slug));
   };

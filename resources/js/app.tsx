@@ -7,7 +7,7 @@ import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import { ThemeProvider } from "@/Providers/ThemeProvider";
 import { StrictMode } from "react";
 
-const appName = import.meta.env.VITE_APP_NAME || "Laravel";
+const appName = import.meta.env.VITE_APP_NAME || "Blog";
 
 createInertiaApp({
   title: (title) => `${title} - ${appName}`,
