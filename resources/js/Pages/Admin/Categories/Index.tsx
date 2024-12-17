@@ -1,6 +1,6 @@
 import { CategoryResource } from "@/types/categories";
 import { PaginatedResponse } from "@/types";
-import AdminLayout from "@/Layouts/AdminLayout";
+import { AdminLayoutProvider } from "@/Layouts/AdminLayout";
 import { Head, Link } from "@inertiajs/react";
 import { Table } from "@/Components/Table";
 import Breadcrumbs from "@/Components/Breadcrumbs";
@@ -13,7 +13,7 @@ type IndexPageProps = {
 export default function Index({ categories }: IndexPageProps) {
   console.log(categories);
   return (
-    <AdminLayout>
+    <AdminLayoutProvider>
       <Head title="Categories" />
       <div className="my-5 px-4">
         <Breadcrumbs />
@@ -59,6 +59,6 @@ export default function Index({ categories }: IndexPageProps) {
           </Table.Body>
         </Table>
       </div>
-    </AdminLayout>
+    </AdminLayoutProvider>
   );
 }

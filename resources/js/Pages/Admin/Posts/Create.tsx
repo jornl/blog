@@ -3,7 +3,7 @@ import { Head } from "@inertiajs/react";
 import Breadcrumbs from "@/Components/Breadcrumbs";
 
 import { PostResource } from "@/types/posts";
-import AdminLayout from "@/Layouts/AdminLayout";
+import { AdminLayoutProvider } from "@/Layouts/AdminLayout";
 import PostForm from "@/Pages/Admin/Posts/Partials/PostForm";
 
 export default function Create({
@@ -14,7 +14,7 @@ export default function Create({
   categories: CategoryResource[];
 }) {
   return (
-    <AdminLayout>
+    <AdminLayoutProvider>
       <Head title="Create Post" />
       <div className="my-5 px-4">
         <Breadcrumbs />
@@ -31,6 +31,6 @@ export default function Create({
           </PostForm>
         </div>
       </div>
-    </AdminLayout>
+    </AdminLayoutProvider>
   );
 }

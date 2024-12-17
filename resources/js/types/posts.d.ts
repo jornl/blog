@@ -29,7 +29,7 @@ export interface PostResource extends Post {
   routes: {
     show: string;
     edit?: string;
-    preview?: string;
+    preview: string;
   };
   can: {
     like: boolean;

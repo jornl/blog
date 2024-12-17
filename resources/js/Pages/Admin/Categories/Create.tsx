@@ -1,5 +1,5 @@
 import Breadcrumbs from "@/Components/Breadcrumbs";
-import AdminLayout from "@/Layouts/AdminLayout";
+import { AdminLayoutProvider } from "@/Layouts/AdminLayout";
 import { Head, useForm } from "@inertiajs/react";
 import Header from "@/Components/Topography/Header";
 import FormInput from "@/Components/Form/FormInput";
@@ -17,7 +17,7 @@ export default function Create() {
   };
 
   return (
-    <AdminLayout>
+    <AdminLayoutProvider>
       <Head title={"Create Category"} />
       <div className="my-5 px-4">
         <Breadcrumbs />
@@ -45,6 +45,6 @@ export default function Create() {
           </div>
         </form>
       </div>
-    </AdminLayout>
+    </AdminLayoutProvider>
   );
 }

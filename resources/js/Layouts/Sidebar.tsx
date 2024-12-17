@@ -1,15 +1,29 @@
 import { Accordion } from "@/Components/Accordion";
 import "remixicon/fonts/remixicon.css";
 import SidebarLink from "@/Components/Links/SidebarLink";
+import Button from "@/Components/Buttons/Button";
+import { useLayout } from "./AdminLayout";
 
-export default function Sidebar() {
+type SidebarProps = {
+  expanded?: boolean;
+};
+
+export default function Sidebar({ expanded }: SidebarProps) {
+  const { sidebar, setSidebar } = useLayout();
+
   return (
     <nav
       className="flex flex-col gap-1 min-w-[220px] p-4"
       id="main-admin-navigation"
     >
-      <div className="mb-2 p-4">
+      <div className="mb-2 p-4 flex justify-between items-center">
         <h2 className="text-2xl font-bold">JL Admin</h2>
+        <Button
+          className="btn-sm btn-ghost text-xl"
+          onClick={() => setSidebar(!sidebar)}
+        >
+          &times;
+        </Button>
       </div>
       <SidebarLink href={route("home")}>
         <i className="ri-home-2-line mr-3"></i>

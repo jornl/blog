@@ -1,5 +1,5 @@
 import { CategoryResource } from "@/types/categories";
-import AdminLayout from "@/Layouts/AdminLayout";
+import { AdminLayoutProvider } from "@/Layouts/AdminLayout";
 import { Head } from "@inertiajs/react";
 
 type ShowPageType = {
@@ -8,8 +8,8 @@ type ShowPageType = {
 
 export default function Show({ category }: ShowPageType) {
   return (
-    <AdminLayout>
+    <AdminLayoutProvider>
       <Head title="Administer Categories" />
-    </AdminLayout>
+    </AdminLayoutProvider>
   );
 }

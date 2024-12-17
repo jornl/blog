@@ -1,7 +1,7 @@
 import { PostResource } from "@/types/posts";
 import { CategoryResource } from "@/types/categories";
 
-import AdminLayout from "@/Layouts/AdminLayout";
+import { AdminLayoutProvider } from "@/Layouts/AdminLayout";
 import PostForm from "@/Pages/Admin/Posts/Partials/PostForm";
 import Breadcrumbs from "@/Components/Breadcrumbs";
 
@@ -13,7 +13,7 @@ export default function Edit({
   categories: CategoryResource[];
 }) {
   return (
-    <AdminLayout>
+    <AdminLayoutProvider>
       <div className="my-5 px-4">
         <Breadcrumbs />
         <h1 className="text-2xl">Update: {post.title}</h1>
@@ -24,6 +24,6 @@ export default function Edit({
           </button>
         </PostForm>
       </div>
-    </AdminLayout>
+    </AdminLayoutProvider>
   );
 }

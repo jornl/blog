@@ -1,4 +1,4 @@
-import AdminLayout from "@/Layouts/AdminLayout";
+import { AdminLayoutProvider } from "@/Layouts/AdminLayout";
 import Breadcrumbs from "@/Components/Breadcrumbs";
 import Header from "@/Components/Topography/Header";
 import FormInput from "@/Components/Form/FormInput";
@@ -22,7 +22,7 @@ export default function Edit({ category }: EditType) {
   };
 
   return (
-    <AdminLayout>
+    <AdminLayoutProvider>
       <div className="my-5 px-4">
         <Breadcrumbs />
         <Header>Edit Category: {category.name}</Header>
@@ -49,6 +49,6 @@ export default function Edit({ category }: EditType) {
           </div>
         </form>
       </div>
-    </AdminLayout>
+    </AdminLayoutProvider>
   );
 }

@@ -1,6 +1,6 @@
 import { PaginatedResponse } from "@/types";
 import { PostResource } from "@/types/posts";
-import AdminLayout from "@/Layouts/AdminLayout";
+import { AdminLayoutProvider } from "@/Layouts/AdminLayout";
 import { Head, Link } from "@inertiajs/react";
 import { formatDistanceToNow } from "date-fns";
 
@@ -13,7 +13,7 @@ type IndexPageType = {
 
 export default function Index({ posts }: IndexPageType) {
   return (
-    <AdminLayout>
+    <AdminLayoutProvider>
       <Head title="Administer Posts" />
       <div className="px-4 my-12">
         <header className="flex justify-between">
@@ -106,6 +106,6 @@ export default function Index({ posts }: IndexPageType) {
           <Pagination meta={posts.meta} />
         </div>
       </div>
-    </AdminLayout>
+    </AdminLayoutProvider>
   );
 }

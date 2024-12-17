@@ -5,7 +5,7 @@ import { CommentResource } from "@/types/comments";
 import { PaginatedResponse } from "@/types";
 import Breadcrumbs from "@/Components/Breadcrumbs";
 import { formatDistanceToNow } from "date-fns";
-import AdminLayout from "@/Layouts/AdminLayout";
+import { AdminLayoutProvider } from "@/Layouts/AdminLayout";
 
 import "remixicon/fonts/remixicon.css";
 
@@ -21,7 +21,7 @@ export default function Dashboard({
   comments,
 }: DashboardPageType) {
   return (
-    <AdminLayout>
+    <AdminLayoutProvider>
       <Head title="Dashboard" />
 
       <div className="px-4 my-5">
@@ -92,6 +92,6 @@ export default function Dashboard({
           </div>
         </div>
       </div>
-    </AdminLayout>
+    </AdminLayoutProvider>
   );
 }

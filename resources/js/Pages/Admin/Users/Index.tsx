@@ -1,5 +1,5 @@
 import { UserResource } from "@/types/users";
-import AdminLayout from "@/Layouts/AdminLayout";
+import { AdminLayoutProvider } from "@/Layouts/AdminLayout";
 import { Head } from "@inertiajs/react";
 import { Table } from "@/Components/Table";
 import { PaginatedResponse } from "@/types";
@@ -11,7 +11,7 @@ type IndexPageProps = {
 const Index = ({ users }: IndexPageProps) => {
   console.log(users);
   return (
-    <AdminLayout>
+    <AdminLayoutProvider>
       <Head title="Users" />
       <Table zebra={true}>
         <Table.Head>
@@ -34,7 +34,7 @@ const Index = ({ users }: IndexPageProps) => {
           ))}
         </Table.Body>
       </Table>
-    </AdminLayout>
+    </AdminLayoutProvider>
   );
 };
 
